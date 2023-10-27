@@ -8,7 +8,7 @@
     <link rel="icon" href="./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="style.css">
-     <script src="levels/level1.js"></script>
+    <script src="levels/level1.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -34,7 +34,7 @@
 
 </head>
 
-<body id="full-box" >
+<body id="full-box">
 
     <div class="screen">
         <div class="center">
@@ -70,10 +70,22 @@
             <div onclick="closeMenu(),startGameInit()" class="menu-button">Restart</div>
             <div onclick="showControls()" class="menu-button">Controls</div>
             <div onclick="showStory()" class="menu-button">Story</div>
-            <div onclick="showSettings()" class="menu-button">Settings</div>
+            <div onclick="showSettings()" class="menu-button">Option</div>
             <div onclick="showCredits()" class="menu-button">Credits</div>
             <div onclick="closeMenu()" class="menu-button" style="margin-top: 40px;">Close</div>
         </div>
+    </div>
+
+    <div id="menu-controls" class="menu-bg dn">
+        <div> Press the <b>left arrow</b> key or <b>A</b> to move left
+            Press the <b>right arrow</b> key or <b>D</b> to move right
+        </div>
+        <div>
+            Press the <b>up arrow</b> key or <b>W</b> to jump
+        </div>
+        <div>
+            Press the <b>space key</b> to throw a bottle</div>
+        <div>The chickens can be killed by jumping on their heads or by throwing them with a bottle</div>
     </div>
 
 </body>
