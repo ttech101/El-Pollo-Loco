@@ -25,7 +25,7 @@ class World {
     bossFight = false; // Positin des Boss
     bossFightRun = false;
     gameover = false;
-   
+
 
     constructor(canvas, keyboard) {
 
@@ -72,6 +72,9 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.y + this.character.height >= enemy.y + enemy.height && !enemy.chickenDead) {
                 this.character.hit();
+                if (!muteFX) {
+                    damage_sound.play();
+                }
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
@@ -79,6 +82,9 @@ class World {
 
         if (this.character.isColliding(this.endboss) && this.character.y + this.character.height <= this.endboss.y + this.endboss.height && this.endboss.energy >= 10) {
             this.character.hit();
+            if (!muteFX) {
+                damage_sound.play();
+            }
             this.statusBar.setPercentage(this.character.energy);
         }
 
@@ -119,7 +125,9 @@ class World {
         this.level.coins.forEach((coins, index) => {
             if (this.character.isColliding(coins)) {
                 this.level.coins.splice(index, 1);
-                coinSound.play();
+                if (!muteFX) {
+                    coinSound.play();
+                }
                 this.coinCounter++;
 
             }
@@ -128,7 +136,9 @@ class World {
         this.level.bottle.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.level.bottle.splice(index, 1);
-                bottleSound.play();
+                if (!muteFX) {
+                    bottleSound.play();
+                }
                 this.bottleCounter++;
             }
         });

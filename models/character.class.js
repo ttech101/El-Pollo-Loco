@@ -78,9 +78,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
-    walking_sound = new Audio('audio/character/107624_1656768-lq.mp3');
-    jump_sound = new Audio('audio/character/456367_9498993-lq.mp3');
-    damage_sound = new Audio('audio/character/486943_6142149-lq.mp3');
+
 
     world;
 
@@ -100,33 +98,33 @@ class Character extends MovableObject {
 
 
         setInterval(() => {
-            this.walking_sound.pause();
+            walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
                 if (!this.isAboveGround() && !muteFX) {
-                    this.walking_sound.play();
+                    walking_sound.play();
                 }
             }
             if (this.world.keyboard.LEFT && this.x > -600) {
                 this.moveLeft();
                 this.otherDirection = true;
                 if (!this.isAboveGround() && !muteFX) {
-                    this.walking_sound.play();
+                    walking_sound.play();
                 }
             }
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.acceleration = 1.5;
                 this.jump();
                 if (!muteFX) {
-                    this.jump_sound.play();
+                    jump_sound.play();
                 }
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         setInterval(() => {
-            this.walking_sound.pause();
+            walking_sound.pause();
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && this.timer <= 20 && this.y == 140) {
                 this.playAnimation(this.IMAGES_IDLE);
                 this.timer++
@@ -142,7 +140,7 @@ class Character extends MovableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
                 this.timer = 0;
-                this.damage_sound.play();
+                
             }
         }, 200);
 

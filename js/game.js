@@ -5,8 +5,7 @@ let keyboard = new Keyboard();
 let startNewGame = false;
 let menuInterval;
 scale = false;
-let menuSound = new Audio('./audio/the-surf-is-bad-tpdau-30152.mp3');
-let gameSound = new Audio('./audio/chicken-pickin-country-4112.mp3');
+
 
 function initGame() {
 
