@@ -1,5 +1,5 @@
 class BackgroundObjectLayer1 extends MovableObject {
-    speed = 0.8;
+    speed = 0.5;
     width = 720;
     height = 480;
     x;

@@ -18,12 +18,16 @@ class World {
     statusBarBoss = new StatusBarBoss();
     bottleBar = new BottleBar();
     coinBar = new CoinBar();
+    heaven = new Heaven();
     throwableObject = [];
-    bottleCounter = 5;
+    bottleCounter = 50;
     coinCounter = 0;
     bossFight = false; // Positin des Boss
     bossFightRun = false;
     gameover = false;
+    coinSound = new Audio('./audio/coin/scale-e6-14577.mp3');
+    bottleSound = new Audio('audio/bottle/cork-85200.mp3');
+    splashBottle = new Audio('audio/bottle/smashing-glass-6166.mp3');
 
     constructor(canvas, keyboard) {
 
@@ -98,7 +102,9 @@ class World {
 
         this.level.enemies.forEach((enemy, index) => {
             this.throwableObject.forEach((throwableObject) => {
+
                 if (throwableObject.isColliding(enemy)) {
+
                     enemy.chickenDead = true;
                 }
             });
@@ -123,15 +129,16 @@ class World {
         this.level.coins.forEach((coins, index) => {
             if (this.character.isColliding(coins)) {
                 this.level.coins.splice(index, 1);
-                //this.coin_collect_sound.play();
+                this.coinSound.play();
                 this.coinCounter++;
+
             }
         });
 
         this.level.bottle.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.level.bottle.splice(index, 1);
-                //this.coin_collect_sound.play();
+                this.bottleSound.play();
                 this.bottleCounter++;
             }
         });
@@ -141,6 +148,7 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.addToMap(this.heaven); 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundOjectsLayer1);
         this.addObjectsToMap(this.level.backgroundOjectsLayer2);
@@ -149,6 +157,7 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.endboss);
         this.addObjectsToMap(this.throwableObject);
+        
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.ctx.translate(-this.camera_x, 0);
@@ -157,6 +166,9 @@ class World {
         this.addToMap(this.coinBar);
         this.showBossBar();
         this.ctx.translate(this.camera_x, 0);
+
+
+
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
         this.counterText(this.bottleCounter, 480, 30);

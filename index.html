@@ -29,8 +29,10 @@
     <script src="models/bottle.class.js"></script>
     <script src="models/coins.class.js"></script>
     <script src="models/level.class.js"></script>
+    <script src="models/heaven.class.js"></script>
     <script src="./js/game.js"></script>
     <script src="./js/layout.js"></script>
+
 
 </head>
 
@@ -45,8 +47,8 @@
                 </div>
                 <div>
                     <div class="menu-center">
-                        <img id="mute" onclick="mute()"
-                            src="./img/Icons/desktop/volume_off_FILL0_wght400_GRAD0_opsz24.svg" alt="Sound Volume">
+                        <img id="mute" onclick="mute('click')"
+                            src="./img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg" alt="Sound Volume">
                         <span>Mute</span>
                     </div>
                     <div id="menu-start-button" onclick="startGame()" class="menu-center-colume">
@@ -65,29 +67,89 @@
     </div>
 
     <div id="menu" class="menu-bg dn">
-        <div class="menu">
-            <div onclick="mainMenu()" class="menu-button">Main Menu</div>
-            <div onclick="closeMenu(),startGameInit()" class="menu-button">Restart</div>
-            <div onclick="showControls()" class="menu-button">Controls</div>
-            <div onclick="showStory()" class="menu-button">Story</div>
-            <div onclick="showSettings()" class="menu-button">Option</div>
-            <div onclick="showCredits()" class="menu-button">Credits</div>
-            <div onclick="closeMenu()" class="menu-button" style="margin-top: 40px;">Close</div>
+        <div class="menu-box">
+            <div id="menu-menu" class="menu">
+                <div onclick="mainMenu()" class="menu-button">Main Menu</div>
+                <div onclick="closeMenu(),startGameInit()" class="menu-button">Restart</div>
+                <div onclick="showControls()" class="menu-button">Controls</div>
+                <div onclick="showStory()" class="menu-button">Story</div>
+                <div onclick="showSettings()" class="menu-button">Option</div>
+                <div onclick="showCredits()" class="menu-button">Credits</div>
+            </div>
+            <div id="menu-controls" class="menu-controls dn">
+                <div> Press the <b>LEFT ARROW</b> key or <b>A</b> to move left.
+                    Press the <b>RIGHT ARROW</b> key or <b>D</b> to move right.
+                </div>
+                <div>
+                    Press the <b>UP ARROW</b> key or <b>W</b> to jump.
+                </div>
+                <div>
+                    Press the <b>SPACE KEY</b> to throw a bottle.</div>
+                <div>The chickens can be killed by jumping on their heads or by throwing them with a bottle.</div>
+            </div>
+            <div id="menu-story" class="menu-story dn">
+                <div> In a Mexican village named Salsaville, the salsa dancer Pepe is attacked by mutated chickens,
+                    known as "Chickenzillas." Armed with his salsa bottles, Pepe must navigate through various 2D
+                    platform levels, defeating the Chickenzillas. Along the way, he collects different salsa bottles and
+                    power-ups. Players must use their platforming skills to safely guide Pepe through the levels and
+                    save the village. "Pepe's Salsa Rescue" is an exciting jump-and-run game with a touch of salsa and
+                    Mexican flair. Pepe utilizes his salsa skills to defeat the Chickenzillas and restore peace to
+                    Salsaville.
+                </div>
+            </div>
+
+            <div id="menu-settings" class="menu-settings dn">
+                <h3>Settigns</h3>
+                <div><label for="myCheckbox1">Sounds:</label>
+                    <input type="checkbox" id="checkboxSound" name="myCheckbox1" checked  >
+                </div>
+                <div>
+                    <div><label for="myCheckbox">FX Sounds:</label>
+                        <input type="checkbox" id="checkboxFX" name="myCheckbox" checked  >
+                    </div>
+                </div>
+                <div>
+                    <input type="range" min="0" max="100" value="50" class="slider" id="volumeSliderSound">
+                    <span id="volumeValueSound">50 %</span>
+                </div>
+                FX-Sound
+                <div>
+                    <input type="range" min="0" max="100" value="50" class="slider" id="volumeSliderFX">
+                    <span id="volumeValueFX">50 %</span>
+                </div>
+            </div>
+
+            <div id="menu-credit" class="menu-credit dn">
+                <div>
+                    <h3>Credits for "El Pollo Loco"</h3>
+                    <div style="margin-bottom: 10px;">
+                        Development and Programming Team:
+                        - Programming by Tony Tech
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        Graphic Design and Artwork:
+                        - Artwork developed by Developer Academy
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        Icon Usage:
+                        - Icons provided by Google
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        Special thanks to everyone who contributed to the development of this game!
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-bottom">
+                <div onclick="closeMenu()" class="menu-button" style="margin-top: 40px;">Close
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="menu-controls" class="menu-bg dn">
-        <div> Press the <b>left arrow</b> key or <b>A</b> to move left
-            Press the <b>right arrow</b> key or <b>D</b> to move right
-        </div>
-        <div>
-            Press the <b>up arrow</b> key or <b>W</b> to jump
-        </div>
-        <div>
-            Press the <b>space key</b> to throw a bottle</div>
-        <div>The chickens can be killed by jumping on their heads or by throwing them with a bottle</div>
-    </div>
 
+
+    <script src="./js/sounds.js"></script>
 </body>
 
 </html>

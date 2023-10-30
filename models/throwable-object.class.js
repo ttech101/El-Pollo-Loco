@@ -27,6 +27,8 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ]
 
+    throw_bottle = new Audio('audio/bottle/493224_10648717-lq.mp3');
+    splash_bottle = new Audio('audio/bottle/smashing-glass-6166.mp3');
 
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
@@ -60,24 +62,32 @@ class ThrowableObject extends MovableObject {
 
     animateBottle() {
         this.broke = true;
+        this.splashsound = true;
+        this.throw_bottle.play();
+
 
         setInterval(() => {
+
             if (this.y <= 365) {
                 this.playAnimation(this.IMAGES_BOTTLE);
-                world.gameover = true;
             }
-            if (this.y >= 366) {
+            if (this.y >= 365) {
                 this.playAnimation(this.IMAGES_SPLASH);
+                console.log('hier', this.y)
+                if (this.splashsound ) {
+                    this.splashsound = false;
+                    this.playSounds();
+                }
             }
             if (world.endboss.hitBoss) {
                 this.playAnimation(this.IMAGES_SPLASH);
                 if (this.broke) {
                     this.broke = false;
-
                     let removebottle = setTimeout(() => {
                         world.throwableObject.splice(0, 1);
                         clearTimeout(removebottle);
                         clearTimeout(bottombreak);
+
                         world.endboss.hitBoss = false;
                     }, 50)
 
@@ -85,12 +95,19 @@ class ThrowableObject extends MovableObject {
             }
         }, 50);
 
+
+
         let Y_add = 420 - this.y;
         let bottombreak = setTimeout(() => {
+
             world.throwableObject.splice(0, 1);
         }, 1700 + Y_add);
 
+    }
 
-
+    playSounds() {
+        this.splash_bottle.pause();
+        this.splash_bottle.currentTime = 0.3;
+        this.splash_bottle.play()
     }
 }

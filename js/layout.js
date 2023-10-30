@@ -1,5 +1,6 @@
-let muteToggle = false;
+muteToggle = false;
 stopGame = false;
+submenu = false;
 
 
 function showFullscreen() {
@@ -53,36 +54,85 @@ function showMenu() {
 }
 
 function closeMenu() {
-    stopGame = false;
-    document.getElementById('menu').classList.add('dn');
-    document.querySelector('.screen').style.filter = 'blur(0px)';
-}
-
-
-function mute() {
-    if (!muteToggle) {
-        document.getElementById('mute').src = './img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg';
-        muteToggle = true;
+    if (!submenu) {
+        stopGame = false;
+        document.getElementById('menu').classList.add('dn');
+        document.querySelector('.screen').style.filter = 'blur(0px)';
     } else {
-        document.getElementById('mute').src = './img/Icons/desktop/volume_off_FILL0_wght400_GRAD0_opsz24.svg';
-        muteToggle = false;
+        document.getElementById('menu-menu').classList.remove('dn');
+        document.getElementById('menu-controls').classList.add('dn');
+        document.getElementById('menu-story').classList.add('dn');
+        document.getElementById('menu-settings').classList.add('dn');
+        document.getElementById('menu-credit').classList.add('dn');
+        submenu = false;
     }
 }
 
-function showControls(){
-console.log('start controler ansicht');
+
+function mute(id) {
+    if (id == 'click' && !muteToggle) {
+        muteSound = true;
+        document.getElementById("checkboxSound").checked = false;
+        muteFX = true;
+        document.getElementById("checkboxFX").checked = false;
+        muteToggle = true
+        document.getElementById('mute').src = './img/Icons/desktop/volume_off_FILL0_wght400_GRAD0_opsz24.svg';
+    } else
+        if (id == 'click' && muteToggle && muteSound && muteFX) {
+            muteSound = false;
+            document.getElementById("checkboxSound").checked = true;
+            muteFX = false;
+            document.getElementById("checkboxFX").checked = true;
+            muteToggle = false
+            document.getElementById('mute').src = './img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg';
+        }
+    if (muteSound && !muteFX) {
+        muteSound = true;
+        muteToggle = false
+        document.getElementById('mute').src = './img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg';
+    }
+    if (!muteSound && muteFX) {
+        muteFX = true;
+        muteToggle = false
+        document.getElementById('mute').src = './img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg';
+    }
+    if (muteSound && muteFX) {
+        muteToggle = true;
+        document.getElementById('mute').src = './img/Icons/desktop/volume_off_FILL0_wght400_GRAD0_opsz24.svg';
+    }
+}
+
+
+
+
+function showControls() {
+    document.getElementById('menu-menu').classList.add('dn');
+    document.getElementById('menu-controls').classList.remove('dn');
+    submenu = true;
+    console.log('start controler ansicht');
 
 }
 
-function showStory(){
+function showStory() {
+    document.getElementById('menu-menu').classList.add('dn');
+    document.getElementById('menu-story').classList.remove('dn');
+    submenu = true;
     console.log('zeige story');
 }
 
-function showSettings(){
+function showSettings() {
+    document.getElementById('menu-menu').classList.add('dn');
+    document.getElementById('menu-settings').classList.remove('dn');
+    submenu = true;
+
     console.log('zeige einstellungen');
 }
 
-function showCredits(){
+function showCredits() {
+    document.getElementById('menu-menu').classList.add('dn');
+    document.getElementById('menu-credit').classList.remove('dn');
+    submenu = true;
+
     console.log('zeige Imprtressum');
 }
 
