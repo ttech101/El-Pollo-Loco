@@ -9,7 +9,8 @@ class ChickenSmall extends MovableObject {
     speedY = 0.001;
     acceleration = 5;
     jumpTime;
-
+    chicken = 'small';
+    
     offset = {
         top: 0,
         left: 5,

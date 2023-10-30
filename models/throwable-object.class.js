@@ -27,8 +27,7 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ]
 
-    throw_bottle = new Audio('audio/bottle/493224_10648717-lq.mp3');
-    splash_bottle = new Audio('audio/bottle/smashing-glass-6166.mp3');
+   
 
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
@@ -63,7 +62,7 @@ class ThrowableObject extends MovableObject {
     animateBottle() {
         this.broke = true;
         this.splashsound = true;
-        this.throw_bottle.play();
+        throw_bottle.play();
 
 
         setInterval(() => {
@@ -74,7 +73,7 @@ class ThrowableObject extends MovableObject {
             if (this.y >= 365) {
                 this.playAnimation(this.IMAGES_SPLASH);
                 console.log('hier', this.y)
-                if (this.splashsound ) {
+               if (this.splashsound ) {
                     this.splashsound = false;
                     this.playSounds();
                 }
@@ -106,8 +105,8 @@ class ThrowableObject extends MovableObject {
     }
 
     playSounds() {
-        this.splash_bottle.pause();
-        this.splash_bottle.currentTime = 0.3;
-        this.splash_bottle.play()
+        splash_bottle.pause();
+        splash_bottle.currentTime = 0.3;
+        splash_bottle.play()
     }
 }

@@ -48,6 +48,13 @@ function setFullScreenIcon() {
 }
 
 function showMenu() {
+    menuInterval =  setInterval(() => {
+        if (!muteSound) {
+            menuSound.play();
+        } else {
+            menuSound.pause();
+        }
+    }, 250);
     stopGame = true;
     document.getElementById('menu').classList.remove('dn');
     document.querySelector('.screen').style.filter = 'blur(2px)';
