@@ -27,7 +27,7 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ]
 
-   
+
 
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
@@ -62,7 +62,9 @@ class ThrowableObject extends MovableObject {
     animateBottle() {
         this.broke = true;
         this.splashsound = true;
-        throw_bottle.play();
+        if (!muteFX) {
+            throw_bottle.play();
+        }
 
 
         setInterval(() => {
@@ -71,14 +73,16 @@ class ThrowableObject extends MovableObject {
                 this.playAnimation(this.IMAGES_BOTTLE);
             }
             if (this.y >= 365) {
+                console.log(world.endboss.hitBoss)
                 this.playAnimation(this.IMAGES_SPLASH);
-                console.log('hier', this.y)
-               if (this.splashsound ) {
+                if (this.splashsound && this.broke) {
                     this.splashsound = false;
-                    this.playSounds();
+                    console.log('test')
+                    if (!muteFX) {
+                        this.playSounds();
+                    }
                 }
-            }
-            if (world.endboss.hitBoss) {
+            } else if (world.endboss.hitBoss) {
                 this.playAnimation(this.IMAGES_SPLASH);
                 if (this.broke) {
                     this.broke = false;
@@ -86,15 +90,12 @@ class ThrowableObject extends MovableObject {
                         world.throwableObject.splice(0, 1);
                         clearTimeout(removebottle);
                         clearTimeout(bottombreak);
-
                         world.endboss.hitBoss = false;
                     }, 50)
 
                 }
             }
         }, 50);
-
-
 
         let Y_add = 420 - this.y;
         let bottombreak = setTimeout(() => {
@@ -103,7 +104,6 @@ class ThrowableObject extends MovableObject {
         }, 1700 + Y_add);
 
     }
-
     playSounds() {
         splash_bottle.pause();
         splash_bottle.currentTime = 0.3;

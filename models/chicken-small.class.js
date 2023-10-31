@@ -10,7 +10,7 @@ class ChickenSmall extends MovableObject {
     acceleration = 5;
     jumpTime;
     chicken = 'small';
-    
+
     offset = {
         top: 0,
         left: 5,
@@ -45,31 +45,39 @@ class ChickenSmall extends MovableObject {
     animate() {
         this.jumpTime = 1000 + Math.random() * 2000;//2000
         setInterval(() => {
-            if (this.chickenDead) {
-                this.speed = 0;
-                this.playAnimation(this.IMAGES_DEAD);
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
+            if (!stopGame) {
+                if (this.chickenDead) {
+                    this.speed = 0;
+                    this.playAnimation(this.IMAGES_DEAD);
+                } else {
+                    this.playAnimation(this.IMAGES_WALKING);
+                }
             }
         }, 150);
 
         setInterval(() => {
-            if (!this.isAboveGround() && !this.chickenDead) {
-             
-                this.jump();
+            if (!stopGame) {
+                if (!this.isAboveGround() && !this.chickenDead) {
+
+                    this.jump();
+                }
             }
         }, this.jumpTime);
 
         setInterval(() => {
-            this.moveLeft();
+            if (!stopGame) {
+                this.moveLeft();
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            for (let i = 0; i < world.level.enemies.length; i++) {
-                const element = world.level.enemies[i];
-                if (element.chickenDead) {
-                    world.level.enemies.splice(i, 1);
-                    console.log('letzt Löschung')
+            if (!stopGame) {
+                for (let i = 0; i < world.level.enemies.length; i++) {
+                    const element = world.level.enemies[i];
+                    if (element.chickenDead) {
+                        world.level.enemies.splice(i, 1);
+                        console.log('letzt Löschung')
+                    }
                 }
             }
         }, 1000);

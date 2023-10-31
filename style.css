@@ -75,6 +75,18 @@ canvas {
     border-bottom-right-radius: 40px;
 }
 
+.canvas-gameover {
+    position: absolute;
+    margin: 0;
+    max-height: 90%;
+    max-width: 100%;
+    width: 100%;
+    object-fit: contain;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+
 
 .center {
     display: flex;
@@ -133,8 +145,7 @@ canvas {
 
 .menu-center-colume {
     position: absolute;
-    top: 2.3em;
-
+    top: 2.0em;
     font-size: 28px;
     display: flex;
     align-items: center;
@@ -149,6 +160,8 @@ canvas {
     border-radius: 15px;
     border: 2px solid;
     z-index: 15;
+    left: 20%;
+    right: 20%;
 }
 
 .menu-center-colume:hover {

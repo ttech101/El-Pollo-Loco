@@ -1,5 +1,7 @@
 muteToggle = false;
-stopGame = false;
+stopGame = true;
+gameStart = false;
+menu = false;
 submenu = false;
 
 
@@ -48,24 +50,23 @@ function setFullScreenIcon() {
 }
 
 function showMenu() {
-    menuInterval =  setInterval(() => {
-        if (!muteSound) {
-            menuSound.play();
-        } else {
-            menuSound.pause();
-        }
-    }, 250);
+    playedClickSound()
     stopGame = true;
+    menu = true
     document.getElementById('menu').classList.remove('dn');
     document.querySelector('.screen').style.filter = 'blur(2px)';
 }
 
+
 function closeMenu() {
+    playedClickSound()
     if (!submenu) {
+        menu = false;
         stopGame = false;
         document.getElementById('menu').classList.add('dn');
         document.querySelector('.screen').style.filter = 'blur(0px)';
     } else {
+        //menuSound.pause();
         document.getElementById('menu-menu').classList.remove('dn');
         document.getElementById('menu-controls').classList.add('dn');
         document.getElementById('menu-story').classList.add('dn');
@@ -110,9 +111,8 @@ function mute(id) {
 }
 
 
-
-
 function showControls() {
+    playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-controls').classList.remove('dn');
     submenu = true;
@@ -121,6 +121,7 @@ function showControls() {
 }
 
 function showStory() {
+    playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-story').classList.remove('dn');
     submenu = true;
@@ -128,6 +129,7 @@ function showStory() {
 }
 
 function showSettings() {
+    playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-settings').classList.remove('dn');
     submenu = true;
@@ -136,6 +138,7 @@ function showSettings() {
 }
 
 function showCredits() {
+    playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-credit').classList.remove('dn');
     submenu = true;
@@ -143,3 +146,41 @@ function showCredits() {
     console.log('zeige Imprtressum');
 }
 
+function mainMenu() {
+    clearAllIntervals();
+    playedSounds();
+    gameSound.pause();
+    menuSound.pause();
+    stopGame = true;
+    gameStart = false;
+    document.getElementById('canvas').classList.add('dn');
+    document.getElementById('main-menu').classList.remove('dn');
+    document.getElementById('menu-start-button').classList.remove('dn');
+    closeMenu();
+    console.log('hier ist richtug')
+}
+
+function gameOver() {
+canvas;
+    clearAllIntervals();
+    gameSound.pause();
+    menuSound.pause();
+    win_sound.play();
+    document.getElementById('main-menu').src = "./img/9_intro_outro_screens/game_over.png";
+    document.getElementById('menu-start-button').classList.add('dn');
+    document.getElementById('back-to-menu-button').classList.remove('dn');
+    document.getElementById('main-menu').classList.remove('dn');
+
+
+}
+
+function resteGameOver() {
+    world = null;
+   
+    startNewGame = false;
+    document.getElementById('main-menu').src = "./img/9_intro_outro_screens/start/startscreen_2.png";
+    document.getElementById('menu-start-button').classList.remove('dn');
+    document.getElementById('back-to-menu-button').classList.add('dn');
+
+
+}

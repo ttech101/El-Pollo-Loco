@@ -8,13 +8,16 @@ scale = false;
 
 
 function initGame() {
-
+    playedSounds();
 }
 
 function startGameInit() {
+    
+    gameSound.currentTime = 0.3;
     initLevel();
     clearInterval(menuInterval);
-    menuSound.pause()
+    gameStart = true;
+    stopGame = false;
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }
@@ -34,12 +37,7 @@ function startGame() {
     document.getElementById('menu-start-button').classList.add('dn');
 }
 
-function mainMenu() {
-    document.getElementById('canvas').classList.add('dn');
-    document.getElementById('main-menu').classList.remove('dn');
-    document.getElementById('menu-start-button').classList.remove('dn');
-    closeMenu();
-}
+
 
 window.addEventListener('keydown', (e) => {
     if (e.keyCode == 39 || e.keyCode == 68) {

@@ -21,6 +21,7 @@ class World {
     heaven = new Heaven();
     throwableObject = [];
     bottleCounter = 50;
+    throwBottle = true;
     coinCounter = 0;
     bossFight = false; // Positin des Boss
     bossFightRun = false;
@@ -57,14 +58,16 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.SPACE && this.keyboard_up == true && this.bottleCounter >= 1) {
+        if (this.keyboard.SPACE && this.keyboard_up == true && this.bottleCounter >= 1 && this.throwBottle) {
             let bottle_fly = new ThrowableObject(this.character.x + 80, this.character.y + 100)
             this.throwableObject.push(bottle_fly);
             this.bottleCounter--;
-            this.keyboard_up = false;
+             this.keyboard_up = false;   
+             this.throwBottle = false;    
+             this.waitThrowBottle();       
         }
         if (!this.keyboard.SPACE) {
-            this.keyboard_up = true;
+                this.keyboard_up = true;
         }
     }
 
@@ -111,8 +114,13 @@ class World {
 
         this.throwableObject.forEach((throwableObject) => {
             if (throwableObject.isColliding(this.endboss)) {
-                if (throwableObject.hit) {
+                if (throwableObject.hit &&  this.endboss.energy != 0) {
                     this.endboss.hit();
+                    if (!muteFX) {
+                        splash_bottle.play()
+                        bossHit_Sound.play();
+                    }
+                    splash_bottle.currentTime = 0.3;
                     this.statusBarBoss.setPercentage(this.endboss.energy);
                     this.endboss.hitBoss = true;
                     throwableObject.hit = false;
@@ -186,11 +194,11 @@ class World {
     }
 
     showBossBar() {
-        if (this.camera_x <= -0 || this.bossFight) { //3780 -50
+        if (this.camera_x <= -50 || this.bossFight) { //3780 -50
             this.addToMap(this.statusBarBoss);
             this.bossFight = true;
             setTimeout(() => {
-                // this.bossFightRun = true;
+                this.bossFightRun = true;
             }, 2000);
         }
     }
@@ -241,5 +249,10 @@ class World {
                 deadChicken.play();
             }
         }
+    }
+    waitThrowBottle(){
+        setTimeout(() => {
+            this.throwBottle = true;
+        }, 1000);
     }
 }

@@ -5,7 +5,7 @@ class Chicken extends MovableObject {
     y = 330;
     chickenDead = false;
 
-    
+
 
     offset = {
         top: 10,
@@ -39,28 +39,34 @@ class Chicken extends MovableObject {
     animate() {
 
         setInterval(() => {
-            if (this.chickenDead) {
-                this.speed = 0;
-                this.playAnimation(this.IMAGES_DEAD);
+            if (!stopGame) {
+                if (this.chickenDead) {
+                    this.speed = 0;
+                    this.playAnimation(this.IMAGES_DEAD);
 
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
+                } else {
+                    this.playAnimation(this.IMAGES_WALKING);
+                }
             }
         }, 150);
 
 
         setInterval(() => {
-            //  this.moveLeft();
+            if (!stopGame) {
+                this.moveLeft();
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            for (let i = 0; i < world.level.enemies.length; i++) {
-               const element = world.level.enemies[i];
-               if(element.chickenDead){
-                   world.level.enemies.splice(i, 1);
-                   console.log('letzt Löschung')
-               }
-           }
-       }, 1000);
+            if (!stopGame) {
+                for (let i = 0; i < world.level.enemies.length; i++) {
+                    const element = world.level.enemies[i];
+                    if (element.chickenDead) {
+                        world.level.enemies.splice(i, 1);
+                        console.log('letzt Löschung')
+                    }
+                }
+            }
+        }, 1000);
     }
 }

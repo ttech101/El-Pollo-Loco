@@ -8,9 +8,9 @@ class Endboss extends MovableObject {
     acceleration = 8;
 
     offset = {
-        top:90,
+        top: 90,
         left: 20,
-        right: 20,  
+        right: 20,
         bottom: 20
     }
 
@@ -68,52 +68,68 @@ class Endboss extends MovableObject {
     animate() {
         let walk;
         setInterval(() => {
-            if (!this.gameover) {
-                if (this.isDead()) {
-                    this.speed = 0;
-                    this.playAnimation(this.IMAGES_DEAD);
-                    this.timer = 0;
-                    setTimeout(() => {
-                        this.gameover = true;
-                    }, 500);
-                    clearTimeout(walk);
-                } else if (this.isHurt()) {
-                    this.speed = 0;
-                    this.playAnimation(this.IMAGES_HURT);
-                    world.endboss.hitBoss == false;
-                    clearTimeout(walk);
-                } else if (world.bossFightRun && !this.isHurt() && this.x > -500 && !this.isAboveGround()) {
-                    this.playAnimation(this.IMAGES_WALK);
-                    this.speed = 2.5;
-                    if (!this.isAboveGround() && !this.isHurt()) {
-                    walk = setTimeout(() => {
-                        this.speed = 10.5;
-                        this.jump();
-                        this.playAnimation(this.IMAGES_ATTACK);
+            if (!stopGame) {
+                if (!this.gameover) {
+                    if (this.isDead()) {
+                        this.speed = 0;
+                        this.playAnimation(this.IMAGES_DEAD);
+                        this.timer = 0;
+                        setTimeout(() => {
+                            this.gameover = true;
+                            if (!muteFX) {
+                                bossFight_sound.pause();
+                                bossDead_Sound.play()
+                                gameOver();
+                            }
+                        }, 500);
                         clearTimeout(walk);
-                    }, 750)
-                }
+                    } else if (this.isHurt()) {
+                        this.speed = 0;
+                        this.playAnimation(this.IMAGES_HURT);
+                        world.endboss.hitBoss == false;
+                        clearTimeout(walk);
+                    } else if (world.bossFightRun && !this.isHurt() && this.x > -500 && !this.isAboveGround()) {
+                        this.playAnimation(this.IMAGES_WALK);
+                        this.speed = 2.5;
+                        if (!this.isAboveGround() && !this.isHurt()) {
+                            walk = setTimeout(() => {
+                                this.speed = 10.5;
+                                this.jump();
+                                this.playAnimation(this.IMAGES_ATTACK);
+                                clearTimeout(walk);
+                            }, 750)
+                        }
 
-                 } else if (world.bossFight) {
-                    //console.log('boss Fight')
-                    this.playAnimation(this.IMAGES_ALERT);
+                    } else if (world.bossFight) {
+                        //console.log('boss Fight')
+                        this.playAnimation(this.IMAGES_ALERT);
+                    }
+                } else {
+                    this.loadImage('img/4_enemie_boss_chicken/5_dead/G26.png')
                 }
-            } else {
-                this.loadImage('img/4_enemie_boss_chicken/5_dead/G26.png')
             }
         }, 150);
         setInterval(() => {
-            if (world.bossFightRun && !this.isHurt() && this.x > -500 && !this.gameover) {
-                this.moveLeft();
+            if (!stopGame) {
+                if (world.bossFightRun && !this.isHurt() && this.x > -500 && !this.gameover) {
+                    this.moveLeft();
+                }
             }
         }, 1000 / 25);
+        setInterval(() => {
+            if (world.bossFightRun && !stopGame && !this.gameover) {
+                if (!muteSound) {
+                    gameSound.pause();
+                    bossFight_sound.play();
+                }
+            } else {
+                bossFight_sound.pause();
+            }
+        }, 250);
     }
 
 
     animateAttack() {
-
-
-
         this.jump();
     }
 }
