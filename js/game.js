@@ -8,11 +8,11 @@ scale = false;
 
 
 function initGame() {
-    playedSounds();
+
 }
 
 function startGameInit() {
-    
+    playedSounds();
     gameSound.currentTime = 0.3;
     initLevel();
     clearInterval(menuInterval);

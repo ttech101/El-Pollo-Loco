@@ -8,10 +8,10 @@ class Endboss extends MovableObject {
     acceleration = 8;
 
     offset = {
-        top: 90,
-        left: 20,
-        right: 20,
-        bottom: 20
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
     }
 
     IMAGES_ALERT = [
@@ -58,7 +58,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 2000; //4500
+        this.x = 4500; //4500
         this.y = 0;
         this.animate();
         this.applyGravity();
@@ -73,14 +73,15 @@ class Endboss extends MovableObject {
                     if (this.isDead()) {
                         this.speed = 0;
                         this.playAnimation(this.IMAGES_DEAD);
+
                         this.timer = 0;
                         setTimeout(() => {
                             this.gameover = true;
                             if (!muteFX) {
                                 bossFight_sound.pause();
                                 bossDead_Sound.play()
-                                gameOver();
                             }
+                            gameOver();
                         }, 500);
                         clearTimeout(walk);
                     } else if (this.isHurt()) {
@@ -88,6 +89,11 @@ class Endboss extends MovableObject {
                         this.playAnimation(this.IMAGES_HURT);
                         world.endboss.hitBoss == false;
                         clearTimeout(walk);
+                        this.height = this.height - 20;
+                        this.width = this.width - 10;
+                        this.gravityEnd = this.gravityEnd + 18;
+
+
                     } else if (world.bossFightRun && !this.isHurt() && this.x > -500 && !this.isAboveGround()) {
                         this.playAnimation(this.IMAGES_WALK);
                         this.speed = 2.5;

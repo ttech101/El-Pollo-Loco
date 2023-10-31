@@ -49,8 +49,8 @@
                         <img id="mute" onclick="mute('click')"
                             src="./img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg" alt="Sound Volume">
                         <span>Mute</span>
-                    </div class="menu-center">
-                    <div id="menu-start-button" onclick="startGame(),startGameInit()" class="menu-center-colume ">
+                    </div>
+                    <div id="menu-start-button" onclick="startGame()" class="menu-center-colume ">
                         Start
                     </div>
                     <div id="back-to-menu-button" onclick="resteGameOver()" class="menu-center-colume dn">
@@ -66,7 +66,7 @@
             </div>
             <canvas id="canvas" width="1920" height="950" class="dn"></canvas>
             <img id="main-menu" class="canvas " src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="">
-            
+
         </div>
 
     </div>
@@ -75,7 +75,7 @@
         <div class="menu-box">
             <div id="menu-menu" class="menu">
                 <div onclick="mainMenu()" class="menu-button">Main Menu</div>
-                <div onclick="closeMenu(),startGameInit(),startGame()" class="menu-button">Restart</div>
+                <div onclick="closeMenu(),startGameInit()" class="menu-button">Restart</div>
                 <div onclick="showControls()" class="menu-button">Controls</div>
                 <div onclick="showStory()" class="menu-button">Story</div>
                 <div onclick="showSettings()" class="menu-button">Option</div>

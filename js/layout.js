@@ -161,22 +161,42 @@ function mainMenu() {
 }
 
 function gameOver() {
-canvas;
-    clearAllIntervals();
-    gameSound.pause();
-    menuSound.pause();
-    win_sound.play();
-    document.getElementById('main-menu').src = "./img/9_intro_outro_screens/game_over.png";
-    document.getElementById('menu-start-button').classList.add('dn');
-    document.getElementById('back-to-menu-button').classList.remove('dn');
-    document.getElementById('main-menu').classList.remove('dn');
+    if (!muteFX) {
+        win_sound.play();
+    }
+    setTimeout(() => {
+        clearAllIntervals();
+        gameSound.pause();
+        menuSound.pause();
+        document.getElementById('main-menu').src = "./img/9_intro_outro_screens/game_over.png";
+        document.getElementById('menu-start-button').classList.add('dn');
+        document.getElementById('back-to-menu-button').classList.remove('dn');
+        document.getElementById('main-menu').classList.remove('dn');
+        document.getElementById('canvas').classList.add('dn');
+    }, 1000);
+}
 
-
+function youLost() {
+    if (!muteFX) {
+        lost_sound.play();
+    }
+    setTimeout(() => {
+        clearAllIntervals();
+        gameSound.pause();
+        menuSound.pause();
+        bossFight_sound.pause();
+        document.getElementById('main-menu').src = "./img/9_intro_outro_screens/you_lost.png";
+        document.getElementById('menu-start-button').classList.add('dn');
+        document.getElementById('back-to-menu-button').classList.remove('dn');
+        document.getElementById('main-menu').classList.remove('dn');
+        document.getElementById('canvas').classList.add('dn');
+    }, 500);
 }
 
 function resteGameOver() {
-    world = null;
-   
+    world.bossFightRun = false;
+    stopGame = false;
+    clearAllIntervals();
     startNewGame = false;
     document.getElementById('main-menu').src = "./img/9_intro_outro_screens/start/startscreen_2.png";
     document.getElementById('menu-start-button').classList.remove('dn');

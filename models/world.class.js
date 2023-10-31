@@ -29,7 +29,7 @@ class World {
 
 
     constructor(canvas, keyboard) {
-
+        console.warn('hier bin ich')
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         if (!scale) {
@@ -62,12 +62,12 @@ class World {
             let bottle_fly = new ThrowableObject(this.character.x + 80, this.character.y + 100)
             this.throwableObject.push(bottle_fly);
             this.bottleCounter--;
-             this.keyboard_up = false;   
-             this.throwBottle = false;    
-             this.waitThrowBottle();       
+            this.keyboard_up = false;
+            this.throwBottle = false;
+            this.waitThrowBottle();
         }
         if (!this.keyboard.SPACE) {
-                this.keyboard_up = true;
+            this.keyboard_up = true;
         }
     }
 
@@ -75,6 +75,9 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.y + this.character.height >= enemy.y + enemy.height && !enemy.chickenDead) {
                 this.character.hit();
+                if (this.character.energy == 0) {
+                    youLost();
+                }
                 if (!muteFX) {
                     damage_sound.play();
                 }
@@ -85,8 +88,12 @@ class World {
 
         if (this.character.isColliding(this.endboss) && this.character.y + this.character.height <= this.endboss.y + this.endboss.height && this.endboss.energy >= 10) {
             this.character.hit();
+            if (this.character.energy == 0) {
+                youLost();
+            }
             if (!muteFX) {
                 damage_sound.play();
+
             }
             this.statusBar.setPercentage(this.character.energy);
         }
@@ -114,13 +121,14 @@ class World {
 
         this.throwableObject.forEach((throwableObject) => {
             if (throwableObject.isColliding(this.endboss)) {
-                if (throwableObject.hit &&  this.endboss.energy != 0) {
+                if (throwableObject.hit && this.endboss.energy != 0) {
                     this.endboss.hit();
                     if (!muteFX) {
+                        splash_bottle.currentTime = 0.3;
                         splash_bottle.play()
                         bossHit_Sound.play();
                     }
-                    splash_bottle.currentTime = 0.3;
+
                     this.statusBarBoss.setPercentage(this.endboss.energy);
                     this.endboss.hitBoss = true;
                     throwableObject.hit = false;
@@ -134,6 +142,7 @@ class World {
             if (this.character.isColliding(coins)) {
                 this.level.coins.splice(index, 1);
                 if (!muteFX) {
+                    coinSound.currentTime = 0;
                     coinSound.play();
                 }
                 this.coinCounter++;
@@ -145,6 +154,7 @@ class World {
             if (this.character.isColliding(bottle)) {
                 this.level.bottle.splice(index, 1);
                 if (!muteFX) {
+                    bottleSound.currentTime = 0;
                     bottleSound.play();
                 }
                 this.bottleCounter++;
@@ -165,7 +175,6 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.endboss);
         this.addObjectsToMap(this.throwableObject);
-
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.ctx.translate(-this.camera_x, 0);
@@ -174,9 +183,6 @@ class World {
         this.addToMap(this.coinBar);
         this.showBossBar();
         this.ctx.translate(this.camera_x, 0);
-
-
-
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
         this.counterText(this.bottleCounter, 480, 30);
@@ -188,13 +194,12 @@ class World {
 
     }
 
-
     checkStopGame() {
         this.draw()
     }
 
     showBossBar() {
-        if (this.camera_x <= -50 || this.bossFight) { //3780 -50
+        if (this.camera_x <= -3550 || this.bossFight) { //3780 -50
             this.addToMap(this.statusBarBoss);
             this.bossFight = true;
             setTimeout(() => {
@@ -207,8 +212,6 @@ class World {
         this.ctx.font = "34px sans-serif";
         this.ctx.fillStyle = "white";
         this.ctx.fillText(counter, x, y);
-
-
     }
 
     addObjectsToMap(objects) {
@@ -244,13 +247,15 @@ class World {
     deadSoundEnimy(enemy) {
         if (!muteFX) {
             if (enemy.chicken == 'small') {
+                deadChickenSmall.currentTime = 0;
                 deadChickenSmall.play();
             } else {
+                deadChicken.currentTime = 0;
                 deadChicken.play();
             }
         }
     }
-    waitThrowBottle(){
+    waitThrowBottle() {
         setTimeout(() => {
             this.throwBottle = true;
         }, 1000);

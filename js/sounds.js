@@ -13,6 +13,7 @@ let muteFX = false;
 //World
 const coinSound = new Audio('./audio/coin/scale-e6-14577.mp3');
 const bottleSound = new Audio('audio/bottle/cork-85200.mp3');
+const bossFight_sound = new Audio('audio/boss/random-boss-fight-music-65460.mp3');
 
 //Chicken
 const deadChickenSmall = new Audio('audio/small-chicken/squeaky-toy-1-6059.mp3');
@@ -28,7 +29,7 @@ const jump_sound = new Audio('audio/character/456367_9498993-lq.mp3');
 const damage_sound = new Audio('audio/character/486943_6142149-lq.mp3');
 
 //Boss
-const bossFight_sound = new Audio('audio/boss/random-boss-fight-music-65460.mp3');
+
 const bossHit_Sound = new Audio('audio/boss/cartoon-scream-1-6835.mp3');
 const bossDead_Sound = new Audio('audio/boss/zombie-death-2-95167.mp3');
 
@@ -39,6 +40,7 @@ const clickSound = new Audio('./audio/menu/blip-131856.mp3');
 
 //win or los
 const win_sound = new Audio('audio/gameEnd/success-fanfare-trumpets-6185.mp3');
+const lost_sound = new Audio('audio/character/080205_life-lost-game-over-89697.mp3');
 
 
 // Funktion, die aufgerufen wird, wenn der Slider Musik verschoben wird
@@ -94,11 +96,17 @@ function fxSounds(value) {
     jump_sound.volume = value;
     damage_sound.volume = value;
     clickSound.volume = value;
+    win_sound.volume = value;
+    lost_sound.volume = value;
+    bossDead_Sound.volume = value;
+    bossHit_Sound.volume = value;
+
 }
 
 function songSounds(value) {
     menuSound.volume = value;
     gameSound.volume = value;
+    bossFight_sound.volume = value;
 }
 
 function playedSounds() {
@@ -118,12 +126,11 @@ function playedSounds() {
         } else {
             gameSound.pause();
         }
-
     }, 250);
 }
 
-function playedClickSound(){
-    if(!muteSound){
+function playedClickSound() {
+    if (!muteSound) {
         clickSound.play();
     }
 }

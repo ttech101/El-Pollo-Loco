@@ -18,7 +18,7 @@ class Bottle extends MovableObject {
     constructor() {
         const randomIndex = Math.random() < 0.5 ? 0 : 1; // choosing ranom between 0 and 1
         super().loadImage(this.IMAGE_BOTTLEFLIP[randomIndex]);
-        this.x = 500 + Math.random() * 300;//3000
+        this.x = 500 + Math.random() * 3500;//3000
         this.y = this.y + Math.random() * 25;
     }
 }
