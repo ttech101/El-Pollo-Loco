@@ -201,6 +201,18 @@ function resteGameOver() {
     document.getElementById('main-menu').src = "./img/9_intro_outro_screens/start/startscreen_2.png";
     document.getElementById('menu-start-button').classList.remove('dn');
     document.getElementById('back-to-menu-button').classList.add('dn');
-
-
 }
+
+//window.addEventListener('resize', function(event) {
+//    setZoomToWindowWidth();
+//}, true);
+//
+//function setZoomToWindowWidth() {
+//    const windowWidth = window.innerWidth;
+//    const baseWidth = 1920; // Die Basisbreite, die du als Referenz verwenden möchtest
+//    const scaleFactor = windowWidth / baseWidth;
+//  
+//    // Du kannst den Zoom-Effekt mithilfe von CSS-Transform erreichen
+//    document.body.style.transform = `scale(${scaleFactor})`;
+//    //document.body.style.transformOrigin = 'top left';
+//  }
