@@ -7,6 +7,8 @@ class Character extends MovableObject {
     timer = 0;
     gravityEnd = 140;
     acceleration = 2;
+    hurtLeft = false;
+    hurtRight = false;
 
     offset = {
         top: 120,
@@ -101,21 +103,22 @@ class Character extends MovableObject {
 
 
 
+            if (!this.isHurt()) {
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                }
 
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-            }
-
-            if (this.world.keyboard.LEFT && this.x > -600) {
-                this.moveLeft();
-                this.otherDirection = true;
-            }
-            if (this.world.keyboard.UP && !this.isAboveGround()) {
-                this.acceleration = 1.5;
-                this.jump();
-                if (!muteFX) {
-                    jump_sound.play();
+                if (this.world.keyboard.LEFT && this.x > -600) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                }
+                if (this.world.keyboard.UP && !this.isAboveGround()) {
+                    this.acceleration = 1.5;
+                    this.jump();
+                    if (!muteFX) {
+                        jump_sound.play();
+                    }
                 }
             }
             this.world.camera_x = -this.x + 100;
@@ -187,15 +190,31 @@ class Character extends MovableObject {
         }, 90);
 
         setInterval(() => {
-            if (this.isHurt() && this.world.keyboard.RIGHT) {
+            if (this.isHurt() && this.world.keyboard.RIGHT && !this.hurtLeft) {
                 this.moveLeft();
                 this.acceleration = 10;
                 this.speedY = 10;
-            } else if (this.isHurt() && this.world.keyboard.LEFT) {
+                this.hurtLeft = true
+            } else if (this.isHurt() && this.world.keyboard.LEFT && !this.hurtRight) {
+                this.moveRight();
+                this.acceleration = 10;
+                this.speedY = 10;
+                this.hurtRight = true;
+            }
+            if (this.isHurt() && this.hurtLeft) {
+                this.moveLeft();
+                this.acceleration = 10;
+                this.speedY = 10;
+            }
+            if (this.isHurt() && this.hurtRight) {
                 this.moveRight();
                 this.acceleration = 10;
                 this.speedY = 10;
             }
-        }, 250 / 30);
+            if (!this.isHurt()) {
+                this.hurtLeft = false;
+                this.hurtRight = false;
+            }
+        }, 250 / 15);
     }
 }

@@ -10,6 +10,8 @@ function showFullscreen() {
     setFullScreen(element);
 }
 
+
+
 function setFullScreen(element) {
     if (element.requestFullScreen) {
         if (!document.fullScreen) {
@@ -41,12 +43,14 @@ function setFullScreen(element) {
 
 function setSreenIcon() {
     document.getElementById('fullscreen-img').src = './img/Icons/desktop/fullscreen_FILL0_wght400_GRAD0_opsz24.svg';
-    //document.querySelector('.screen').style.margin = '10%';
+    document.querySelector('.screen').classList.add('m-10');
+
 }
 
 function setFullScreenIcon() {
     document.getElementById('fullscreen-img').src = './img/Icons/desktop/fullscreen_exit_FILL0_wght400_GRAD0_opsz24.svg';
-    document.querySelector('.screen').style.margin = '0px';
+    document.querySelector('.screen').classList.remove('m-10');
+
 }
 
 function showMenu() {
@@ -200,9 +204,9 @@ function resteGameOver() {
     document.getElementById('back-to-menu-button').classList.add('dn');
 }
 
-
 function checkScreenWidth() {
     setInterval(() => {
+
         if (window.innerWidth < 700 || window.innerHeight < 500) {
             if (stopGame) {
                 document.getElementById('hud-touch').classList.add('dn')
@@ -214,3 +218,9 @@ function checkScreenWidth() {
         }
     }, 200);
 }
+
+window.addEventListener('keydown', (e) => {
+    if (e.keyCode == 27) {
+        document.querySelector('.screen').classList.add('m-10');
+    }
+});

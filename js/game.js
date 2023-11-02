@@ -36,6 +36,7 @@ function startGame() {
     document.getElementById('canvas').classList.remove('dn');
     document.getElementById('main-menu').classList.add('dn');
     document.getElementById('menu-start-button').classList.add('dn');
+    document.getElementById('back-to-menu-button').classList.add('dn');
 }
 
 
@@ -58,6 +59,7 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode == 32) {
         keyboard.SPACE = true;
     }
+
 });
 
 window.addEventListener('keyup', (e) => {
@@ -76,6 +78,7 @@ window.addEventListener('keyup', (e) => {
     if (e.keyCode == 32) {
         keyboard.SPACE = false;
     }
+
 });
 
 
