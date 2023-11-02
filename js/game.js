@@ -8,10 +8,11 @@ scale = false;
 
 
 function initGame() {
-
+    window.addEventListener("resize", checkScreenWidth);
 }
 
 function startGameInit() {
+    checkScreenWidth();
     playedSounds();
     gameSound.currentTime = 0.3;
     initLevel();
@@ -36,6 +37,8 @@ function startGame() {
     document.getElementById('main-menu').classList.add('dn');
     document.getElementById('menu-start-button').classList.add('dn');
 }
+
+
 
 
 
@@ -74,4 +77,6 @@ window.addEventListener('keyup', (e) => {
         keyboard.SPACE = false;
     }
 });
+
+
 

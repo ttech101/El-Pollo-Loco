@@ -73,11 +73,9 @@ class ThrowableObject extends MovableObject {
                 this.playAnimation(this.IMAGES_BOTTLE);
             }
             if (this.y >= 365) {
-                console.log(world.endboss.hitBoss)
                 this.playAnimation(this.IMAGES_SPLASH);
                 if (this.splashsound && this.broke) {
                     this.splashsound = false;
-                    console.log('test')
                     if (!muteFX) {
                         this.playSounds();
                     }

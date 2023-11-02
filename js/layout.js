@@ -41,7 +41,7 @@ function setFullScreen(element) {
 
 function setSreenIcon() {
     document.getElementById('fullscreen-img').src = './img/Icons/desktop/fullscreen_FILL0_wght400_GRAD0_opsz24.svg';
-    document.querySelector('.screen').style.margin = '10%';
+    //document.querySelector('.screen').style.margin = '10%';
 }
 
 function setFullScreenIcon() {
@@ -50,6 +50,7 @@ function setFullScreenIcon() {
 }
 
 function showMenu() {
+    document.getElementById('hud-touch').classList.add('dn')
     playedClickSound()
     stopGame = true;
     menu = true
@@ -66,7 +67,6 @@ function closeMenu() {
         document.getElementById('menu').classList.add('dn');
         document.querySelector('.screen').style.filter = 'blur(0px)';
     } else {
-        //menuSound.pause();
         document.getElementById('menu-menu').classList.remove('dn');
         document.getElementById('menu-controls').classList.add('dn');
         document.getElementById('menu-story').classList.add('dn');
@@ -116,8 +116,6 @@ function showControls() {
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-controls').classList.remove('dn');
     submenu = true;
-    console.log('start controler ansicht');
-
 }
 
 function showStory() {
@@ -125,7 +123,6 @@ function showStory() {
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-story').classList.remove('dn');
     submenu = true;
-    console.log('zeige story');
 }
 
 function showSettings() {
@@ -133,8 +130,6 @@ function showSettings() {
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-settings').classList.remove('dn');
     submenu = true;
-
-    console.log('zeige einstellungen');
 }
 
 function showCredits() {
@@ -142,8 +137,6 @@ function showCredits() {
     document.getElementById('menu-menu').classList.add('dn');
     document.getElementById('menu-credit').classList.remove('dn');
     submenu = true;
-
-    console.log('zeige Imprtressum');
 }
 
 function mainMenu() {
@@ -157,10 +150,11 @@ function mainMenu() {
     document.getElementById('main-menu').classList.remove('dn');
     document.getElementById('menu-start-button').classList.remove('dn');
     closeMenu();
-    console.log('hier ist richtug')
+    document.getElementById('hud-touch').classList.add('dn')
 }
 
 function gameOver() {
+    gameStart = false;
     if (!muteFX) {
         win_sound.play();
     }
@@ -173,10 +167,12 @@ function gameOver() {
         document.getElementById('back-to-menu-button').classList.remove('dn');
         document.getElementById('main-menu').classList.remove('dn');
         document.getElementById('canvas').classList.add('dn');
+        document.getElementById('hud-touch').classList.add('dn')
     }, 1000);
 }
 
 function youLost() {
+    gameStart = false;
     if (!muteFX) {
         lost_sound.play();
     }
@@ -190,6 +186,7 @@ function youLost() {
         document.getElementById('back-to-menu-button').classList.remove('dn');
         document.getElementById('main-menu').classList.remove('dn');
         document.getElementById('canvas').classList.add('dn');
+
     }, 500);
 }
 
@@ -203,16 +200,17 @@ function resteGameOver() {
     document.getElementById('back-to-menu-button').classList.add('dn');
 }
 
-//window.addEventListener('resize', function(event) {
-//    setZoomToWindowWidth();
-//}, true);
-//
-//function setZoomToWindowWidth() {
-//    const windowWidth = window.innerWidth;
-//    const baseWidth = 1920; // Die Basisbreite, die du als Referenz verwenden möchtest
-//    const scaleFactor = windowWidth / baseWidth;
-//  
-//    // Du kannst den Zoom-Effekt mithilfe von CSS-Transform erreichen
-//    document.body.style.transform = `scale(${scaleFactor})`;
-//    //document.body.style.transformOrigin = 'top left';
-//  }
+
+function checkScreenWidth() {
+    setInterval(() => {
+        if (window.innerWidth < 700 || window.innerHeight < 500) {
+            if (stopGame) {
+                document.getElementById('hud-touch').classList.add('dn')
+            } else if (gameStart) {
+                document.getElementById('hud-touch').classList.remove('dn')
+            }
+        } else {
+            document.getElementById('hud-touch').classList.add('dn')
+        }
+    }, 200);
+}

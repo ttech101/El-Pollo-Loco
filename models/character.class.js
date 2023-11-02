@@ -98,21 +98,18 @@ class Character extends MovableObject {
 
 
         setInterval(() => {
-            walking_sound.pause();
+
+
+
+
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
-                if (!this.isAboveGround() && !muteFX) {
-                    walking_sound.play();
-                }
             }
 
             if (this.world.keyboard.LEFT && this.x > -600) {
                 this.moveLeft();
                 this.otherDirection = true;
-                if (!this.isAboveGround() && !muteFX) {
-                    walking_sound.play();
-                }
             }
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.acceleration = 1.5;
@@ -126,6 +123,13 @@ class Character extends MovableObject {
 
         setInterval(() => {
             walking_sound.pause();
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isAboveGround() && !muteFX) {
+                walking_sound.play();
+            }
+            if (this.world.keyboard.LEFT && this.x > -600 && !this.isAboveGround() && !muteFX) {
+                walking_sound.play();
+            }
+
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && this.timer <= 20 && this.y == 140) {
                 this.playAnimation(this.IMAGES_IDLE);
                 this.timer++
@@ -169,6 +173,8 @@ class Character extends MovableObject {
         }, 200);
 
         setInterval(() => {
+
+
             if (this.world.keyboard.RIGHT && this.y >= 140 && this.y == 140 || this.world.keyboard.LEFT && this.y == 140) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.timer = 0;

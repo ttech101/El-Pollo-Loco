@@ -20,7 +20,7 @@ class World {
     coinBar = new CoinBar();
     heaven = new Heaven();
     throwableObject = [];
-    bottleCounter = 50;
+    bottleCounter = 0;
     throwBottle = true;
     coinCounter = 0;
     bossFight = false; // Positin des Boss
@@ -29,7 +29,6 @@ class World {
 
 
     constructor(canvas, keyboard) {
-        console.warn('hier bin ich')
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         if (!scale) {
@@ -102,7 +101,6 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy) && this.character.y + this.character.offset.bottom + this.character.height <= enemy.y + enemy.height && !enemy.chickenDead) {
                 enemy.chickenDead = true;
-                console.log(enemy)
                 this.deadSoundEnimy(enemy);
                 this.character.acceleration = 3.5;
                 this.character.jump();
@@ -185,8 +183,8 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
-        this.counterText(this.bottleCounter, 480, 30);
-        this.counterText(this.coinCounter, 400, 30);
+        this.counterText(this.bottleCounter, 480, 40);
+        this.counterText(this.coinCounter, 400, 40);
         let self = this
         requestAnimationFrame(function () {
             self.draw();

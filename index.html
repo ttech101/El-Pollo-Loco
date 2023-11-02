@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="style.css">
     <script src="levels/level1.js"></script>
-    <script src="models/keyboard.class.js"></script>
+
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/status-bar.class.js"></script>
@@ -30,13 +30,18 @@
     <script src="models/coins.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/heaven.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
     <script src="./js/game.js"></script>
     <script src="./js/layout.js"></script>
 
 </head>
 
 <body id="full-box" onload="initGame()">
+    <div class="phone">
 
+        <img src="./img/Icons/smart_screen_FILL0_wght400_GRAD0_opsz24.svg" alt="">
+        <h2>Please rotate your smartphone<br /> to play the game</h2>
+    </div>
     <div class="screen">
         <div class="center">
             <div id="option" class="options">
@@ -66,16 +71,24 @@
             </div>
             <canvas id="canvas" width="1920" height="950" class="dn"></canvas>
             <img id="main-menu" class="canvas " src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="">
-
         </div>
-
+        <div id="hud-touch" class="hud-touch dn">
+            <div>
+                <img id="btnleft" src="./img/keyboard/icons8-quadrat-links-100.png" alt="">
+                <img id="btnright" src="./img/keyboard/icons8-quadrat-rechts-100.png" alt="">
+            </div>
+            <div>
+                <img id="btntrow" src="./img/keyboard/icons8-trow-100.png" alt="">
+                <img id="btnup" src="./img/keyboard/icons8-quadrat-up-100.png" alt="">
+            </div>
+        </div>
     </div>
 
     <div id="menu" class="menu-bg dn">
         <div class="menu-box">
             <div id="menu-menu" class="menu">
                 <div onclick="mainMenu()" class="menu-button">Main Menu</div>
-                <div onclick="closeMenu(),startGameInit()" class="menu-button">Restart</div>
+                <div onclick="closeMenu(),startGame()" class="menu-button">Restart</div>
                 <div onclick="showControls()" class="menu-button">Controls</div>
                 <div onclick="showStory()" class="menu-button">Story</div>
                 <div onclick="showSettings()" class="menu-button">Option</div>
@@ -136,7 +149,7 @@
                 <div><label for="myCheckbox1">Sounds:</label>
                     <input type="checkbox" id="checkboxSound" name="myCheckbox1" checked>
                 </div>
-                <div>
+                <div style="margin-bottom: 20px;">
                     <div><label for="myCheckbox">FX Sounds:</label>
                         <input type="checkbox" id="checkboxFX" name="myCheckbox" checked>
                     </div>
@@ -156,19 +169,24 @@
             <div id="menu-credit" class="menu-credit dn">
                 <div>
                     <h3>Credits for "El Pollo Loco"</h3>
-                    <div style="margin-bottom: 10px;">
-                        Development and Programming Team:
-                        - Programming by Tony Tech
+                    <div style="margin-bottom: 15px;">
+                       <b> Development and Programming:</b>
+                        <div>- Programming by Tony Tech</div>
                     </div>
-                    <div style="margin-bottom: 10px;">
-                        Graphic Design and Artwork:
-                        - Artwork developed by Developer Academy
+                    <div style="margin-bottom: 15px;">
+                       <b> Graphic Design and Artwork:</b>
+                        <div>- Artwork developed by Developer Academy</div>
+                        
                     </div>
-                    <div style="margin-bottom: 10px;">
-                        Icon Usage:
-                        - Icons provided by Google
+                    <div style="margin-bottom: 15px;">
+                        <b>Icon Usage:</b>
+                        <div>- Icons provided by Google</div>
                     </div>
-                    <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 15px;">
+                       <b> Sounds:</b>
+                        <div>- From freepick and freesounds</div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
                         Special thanks to everyone who contributed to the development of this game!
                     </div>
                 </div>

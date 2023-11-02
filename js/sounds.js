@@ -45,7 +45,6 @@ const lost_sound = new Audio('audio/character/080205_life-lost-game-over-89697.m
 
 // Funktion, die aufgerufen wird, wenn der Slider Musik verschoben wird
 volumeSliderSound.oninput = function () {
-    console.log('lautstärke hier', this.value)
     volumeValueSound.innerHTML = this.value + ' %';
     songSounds(this.value / 100);
 }
@@ -53,7 +52,6 @@ volumeSliderSound.oninput = function () {
 
 // Funktion, die aufgerufen wird, wenn der Slider FX verschoben wird
 volumeSliderFX.oninput = function () {
-    console.log('lautstärke hier')
     volumeValueFX.innerHTML = this.value + ' %';
     fxSounds(this.value / 100);
 }
@@ -130,7 +128,7 @@ function playedSounds() {
 }
 
 function playedClickSound() {
-    if (!muteSound) {
+    if (!muteFX) {
         clickSound.play();
     }
 }

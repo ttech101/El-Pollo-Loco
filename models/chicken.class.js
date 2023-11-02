@@ -63,7 +63,6 @@ class Chicken extends MovableObject {
                     const element = world.level.enemies[i];
                     if (element.chickenDead) {
                         world.level.enemies.splice(i, 1);
-                        console.log('letzt Löschung')
                     }
                 }
             }

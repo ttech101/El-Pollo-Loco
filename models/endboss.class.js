@@ -105,9 +105,7 @@ class Endboss extends MovableObject {
                                 clearTimeout(walk);
                             }, 750)
                         }
-
                     } else if (world.bossFight) {
-                        //console.log('boss Fight')
                         this.playAnimation(this.IMAGES_ALERT);
                     }
                 } else {

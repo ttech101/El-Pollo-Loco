@@ -39,7 +39,6 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        //console.log(this.energy)
         if (this.hit_ture) {
             this.energy -= 20;
             if (this.energy < 0) {
