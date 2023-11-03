@@ -1,17 +1,19 @@
 class BottleBar extends DrawableObject {
-    
-    height = 50;
-    width = 50;
-    x = 500;
-    y = 0;
+    height = 50;    //height of the png
+    width = 50;     //widht of the png
+    x = 500;        //x value of the image 
+    y = 0;          //y value of the image 
 
     IMAGES = [
-        'img/7_statusbars/3_icons/icon_salsa_bottle.png'
+        'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png'
     ];
 
+    /**
+     * This constructor sets the settings for the bottlebar
+     */
     constructor() {
         super();
         this.loadImage(this.IMAGES);
-    
+
     }
 }

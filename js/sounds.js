@@ -1,14 +1,14 @@
-let volumeSliderSound = document.getElementById("volumeSliderSound");
-let volumeValueSound = document.getElementById("volumeValueSound");
-let volumeSliderFX = document.getElementById("volumeSliderFX");
-let volumeValueFX = document.getElementById("volumeValueFX");
-let checkboxSound = document.getElementById("checkboxSound");
-let checkboxFX = document.getElementById("checkboxFX");
-let muteCheck = document.getElementById('mute');
-let muteSound = false;
-let muteFX = false;
+let volumeSliderSound = document.getElementById("volumeSliderSound");   //New variable for the sound slider
+let volumeValueSound = document.getElementById("volumeValueSound");     //New variable for the sound slider
+let volumeSliderFX = document.getElementById("volumeSliderFX");         //New variable for the sound slider
+let volumeValueFX = document.getElementById("volumeValueFX");           //New variable for the sound slider
+let checkboxSound = document.getElementById("checkboxSound");           //New variable for check box of sound
+let checkboxFX = document.getElementById("checkboxFX");                 //New variable for check box of sound FX
+let muteCheck = document.getElementById('mute');                        //New variable for check mute
+let muteSound = false;                                                  //New variable for check of sound mute
+let muteFX = false;                                                     //New variable for check of FX mute
 
-//Sounds
+//Sounds od the game
 
 //World
 const coinSound = new Audio('./audio/coin/scale-e6-14577.mp3');
@@ -27,6 +27,7 @@ const splash_bottle = new Audio('audio/bottle/smashing-glass-6166.mp3');
 const walking_sound = new Audio('audio/character/107624_1656768-lq.mp3');
 const jump_sound = new Audio('audio/character/456367_9498993-lq.mp3');
 const damage_sound = new Audio('audio/character/486943_6142149-lq.mp3');
+const snore_sound = new Audio ('audio/character/male-snore-1-29322.mp3');
 
 //Boss
 
@@ -43,19 +44,26 @@ const win_sound = new Audio('audio/gameEnd/success-fanfare-trumpets-6185.mp3');
 const lost_sound = new Audio('audio/character/080205_life-lost-game-over-89697.mp3');
 
 
-// Funktion, die aufgerufen wird, wenn der Slider Musik verschoben wird
+/**
+ * Function that is called when the music slider is moved
+ */
 volumeSliderSound.oninput = function () {
     volumeValueSound.innerHTML = this.value + ' %';
     songSounds(this.value / 100);
 }
 
 
-// Funktion, die aufgerufen wird, wenn der Slider FX verschoben wird
+/**
+ * Function called when the Slider FX is moved
+ */
 volumeSliderFX.oninput = function () {
     volumeValueFX.innerHTML = this.value + ' %';
     fxSounds(this.value / 100);
 }
 
+/**
+ * This function checks whether the sound slider is moving
+ */
 checkboxSound.addEventListener("change", function () {
     var value = checkboxSound.checked ? checkboxSound.value : null;
     if (value) {
@@ -69,6 +77,9 @@ checkboxSound.addEventListener("change", function () {
     }
 });
 
+/**
+ * This function checks whether the FX slider is moving
+ */
 checkboxFX.addEventListener("change", function () {
     var value = checkboxFX.checked ? checkboxFX.value : null;
     if (value) {
@@ -83,6 +94,11 @@ checkboxFX.addEventListener("change", function () {
 
 });
 
+/**
+ * This function sets the volume to the FX category
+ * 
+ * @param {Number} value Volume of the variable
+ */
 function fxSounds(value) {
     coinSound.volume = value;
     bottleSound.volume = value;
@@ -98,15 +114,23 @@ function fxSounds(value) {
     lost_sound.volume = value;
     bossDead_Sound.volume = value;
     bossHit_Sound.volume = value;
-
+    snore_sound.volume = value;
 }
 
+/**
+ * This function sets the volume to the Sounds category
+ * 
+ * @param {Number} value Volume of the variable
+ */
 function songSounds(value) {
     menuSound.volume = value;
     gameSound.volume = value;
     bossFight_sound.volume = value;
 }
 
+/**
+ * This function checks whether the game is in mute
+ */
 function playedSounds() {
     setInterval(() => {
         if (muteSound) {
@@ -118,7 +142,6 @@ function playedSounds() {
         } else {
             menuSound.pause();
         }
-
         if (!stopGame && !muteSound && gameStart && !world.bossFightRun) {
             gameSound.play();
         } else {
@@ -127,6 +150,9 @@ function playedSounds() {
     }, 250);
 }
 
+/**
+ * This function starts the Cclick sound in the menu and on the buttons
+ */
 function playedClickSound() {
     if (!muteFX) {
         clickSound.play();

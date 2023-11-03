@@ -1,16 +1,20 @@
 class MovableObject extends DrawableObject {
-    speed = 0.1;
-    otherDirection = false;
-    speedY = 0;
-    acceleration;
-    energy = 100;
-    lastHit = 0;
-    lastHitBoss = 0;
-    hit_ture = true;
-    hitBoss = false;
-    brokebottle = 5;
-    gravityEnd;
+    speed = 0.1;                //speed
+    otherDirection = false;     //direction left or right
+    speedY = 0;                 //speed
+    acceleration;               //acceleration
+    energy = 100;               //energy
+    lastHit = 0;                //last hit counter
+    lastHitBoss = 0;            // last hit counter boss
+    hit_ture = true;            //hit
+    hitBoss = false;            //hit boss
+    brokebottle = 5;            // bottle broke
+    gravityEnd;                 //gravity end
 
+
+    /**
+     * This function creates the graphitation
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -20,6 +24,10 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
+    /**
+     * This function checks whether the object is in the air
+     * @returns Depending on which value comes, there is a right or wrong answer
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
@@ -31,6 +39,12 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * This function checks the collision and returns a true or false
+     * 
+     * @param {object} mo The object that is being checked
+     * @returns ture or false
+     */
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
@@ -38,6 +52,9 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
+    /**
+     * This function creates a meeting of the character
+     */
     hit() {
         if (this.hit_ture) {
             this.energy -= 20;
@@ -51,6 +68,11 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * This function checks how long ago the last hit was and returns false as soon as the time has expired
+     * 
+     * @returns ture or false
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
@@ -61,10 +83,20 @@ class MovableObject extends DrawableObject {
         return timepassed < 0.5;
     }
 
+    /**
+     * This function checks whether the energy is zero and then returns true
+     * 
+     * @returns true
+     */
     isDead() {
         return this.energy == 0;
     }
 
+    /**
+     * this function animates the objects
+     * 
+     * @param {objects} images img path 
+     */
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -72,6 +104,11 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+    /**
+     * this function animates the jump objects
+     * 
+     * @param {objects} images img path 
+     */
     playAnimationJump(images) {
         let i = this.currentImage % images.length;
         if (this.currentImage == images.length) {
@@ -82,17 +119,24 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+    /**
+     * This function makes the objects move to the right
+     */
     moveRight() {
         this.x += this.speed;
     }
 
+    /**
+     * This function makes the objects move to the left
+     */
     moveLeft() {
         this.x -= this.speed;
     }
 
+    /**
+     * This function makes the objects jumping
+     */
     jump() {
-        
         this.speedY = 20;
     }
-
 }

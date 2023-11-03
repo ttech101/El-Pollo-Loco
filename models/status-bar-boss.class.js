@@ -1,9 +1,9 @@
 class StatusBarBoss extends DrawableObject {
-
-    width = 210;
-    height = 50;
-    x = 730;
-    y = -10;
+    width = 210;        //widht of the png
+    height = 50;        //height of the png
+    x = 730;            //x value of the image
+    y = -10;            //y value of the image
+    percentage = 100;   //percentage status
 
     IMAGES = [
         'img/7_statusbars/2_statusbar_endboss/0.png',
@@ -14,22 +14,33 @@ class StatusBarBoss extends DrawableObject {
         'img/7_statusbars/2_statusbar_endboss/100.png'
     ];
 
-    percentage = 100;
 
+    /**
+    * This constructor sets the settings for the boss statusbar
+    */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
         this.setPercentage(100);
     }
 
+    /**
+     * This function sets the percentage display of the status bar to the energy level
+     * 
+     * @param {number} percentage energy level 
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let Path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[Path];
-        
     }
-    resolveImageIndex() {
 
+    /**
+     * This function checks the energy level and then sets the correct path to the image
+     * 
+     * @returns number of energylevel
+     */
+    resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;
         } else if (this.percentage == 80) {

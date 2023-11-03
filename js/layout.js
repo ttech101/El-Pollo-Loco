@@ -1,17 +1,22 @@
-muteToggle = false;
-stopGame = true;
-gameStart = false;
-menu = false;
-submenu = false;
+muteToggle = false;         //creates the variable to control the mute function
+stopGame = true;            //creates the variable to control the stopGame function
+gameStart = false;          //creates the variable to control the gameStart function
+menu = false;               //creates the variable to control the menu function
+submenu = false;            //creates the variable to control the submenu function
 
-
+/**
+ * This function starts the full screen mode
+ */
 function showFullscreen() {
     var element = document.getElementById('full-box');
     setFullScreen(element);
 }
 
-
-
+/**
+ * In this function the browser is queried which is to be set to full screen mode
+ * 
+ * @param {DIV-Container} element In this parameter, the div container is transferred which is to be set to fullbid
+ */
 function setFullScreen(element) {
     if (element.requestFullScreen) {
         if (!document.fullScreen) {
@@ -40,19 +45,26 @@ function setFullScreen(element) {
     }
 }
 
-
+/**
+ * This function changes the icon for the non full screen mode and the margin to 10% 
+ */
 function setSreenIcon() {
     document.getElementById('fullscreen-img').src = './img/Icons/desktop/fullscreen_FILL0_wght400_GRAD0_opsz24.svg';
     document.querySelector('.screen').classList.add('m-10');
-
 }
 
+/**
+ * This function changes the icon for full screen mode and the margin width to full screen
+ */
 function setFullScreenIcon() {
     document.getElementById('fullscreen-img').src = './img/Icons/desktop/fullscreen_exit_FILL0_wght400_GRAD0_opsz24.svg';
     document.querySelector('.screen').classList.remove('m-10');
 
 }
 
+/**
+ * This function opens the meun
+ */
 function showMenu() {
     document.getElementById('hud-touch').classList.add('dn')
     playedClickSound()
@@ -62,7 +74,9 @@ function showMenu() {
     document.querySelector('.screen').style.filter = 'blur(2px)';
 }
 
-
+/**
+ * This function close the meun
+ */
 function closeMenu() {
     playedClickSound()
     if (!submenu) {
@@ -80,24 +94,13 @@ function closeMenu() {
     }
 }
 
-
+/**
+ * This function controls a toggle function for the volume mute switch
+ * 
+ * @param {Sting} id This shows whether it is a click on the mouse button
+ */
 function mute(id) {
-    if (id == 'click' && !muteToggle) {
-        muteSound = true;
-        document.getElementById("checkboxSound").checked = false;
-        muteFX = true;
-        document.getElementById("checkboxFX").checked = false;
-        muteToggle = true
-        document.getElementById('mute').src = './img/Icons/desktop/volume_off_FILL0_wght400_GRAD0_opsz24.svg';
-    } else
-        if (id == 'click' && muteToggle && muteSound && muteFX) {
-            muteSound = false;
-            document.getElementById("checkboxSound").checked = true;
-            muteFX = false;
-            document.getElementById("checkboxFX").checked = true;
-            muteToggle = false
-            document.getElementById('mute').src = './img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg';
-        }
+    muteMenuChecked(id);
     if (muteSound && !muteFX) {
         muteSound = true;
         muteToggle = false
@@ -114,7 +117,33 @@ function mute(id) {
     }
 }
 
+/**
+ * In this function, the menu mute function would be checked and set
+ * 
+ * @param {String} id This shows whether it is a click on the mouse button
+ */
+function muteMenuChecked(id) {
+    if (id == 'click' && !muteToggle) {
+        muteSound = true;
+        document.getElementById("checkboxSound").checked = false;
+        muteFX = true;
+        document.getElementById("checkboxFX").checked = false;
+        muteToggle = true
+        document.getElementById('mute').src = './img/Icons/desktop/volume_off_FILL0_wght400_GRAD0_opsz24.svg';
+    } else
+        if (id == 'click' && muteToggle && muteSound && muteFX) {
+            muteSound = false;
+            document.getElementById("checkboxSound").checked = true;
+            muteFX = false;
+            document.getElementById("checkboxFX").checked = true;
+            muteToggle = false
+            document.getElementById('mute').src = './img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg';
+        }
+}
 
+/**
+ * This function opens the control submenu
+ */
 function showControls() {
     playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
@@ -122,6 +151,9 @@ function showControls() {
     submenu = true;
 }
 
+/**
+ * This function opens the story submenu
+ */
 function showStory() {
     playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
@@ -129,6 +161,9 @@ function showStory() {
     submenu = true;
 }
 
+/**
+ * This function opens the settings submenu
+ */
 function showSettings() {
     playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
@@ -136,6 +171,9 @@ function showSettings() {
     submenu = true;
 }
 
+/**
+ * This function opens the Credits submenu
+ */
 function showCredits() {
     playedClickSound()
     document.getElementById('menu-menu').classList.add('dn');
@@ -143,9 +181,13 @@ function showCredits() {
     submenu = true;
 }
 
+/**
+ * This function opens the Menu submenu
+ */
 function mainMenu() {
     clearAllIntervals();
     playedSounds();
+    snore_sound.pause();
     gameSound.pause();
     menuSound.pause();
     stopGame = true;
@@ -157,11 +199,22 @@ function mainMenu() {
     document.getElementById('hud-touch').classList.add('dn')
 }
 
+/**
+ * This function controls the sounds and the resetting of the intervals after the end of the game
+ */
 function gameOver() {
+    snore_sound.pause();
     gameStart = false;
     if (!muteFX) {
         win_sound.play();
     }
+    gameOverTimeout();
+}
+
+/**
+ * This function resets the intervals and displays the winning image
+ */
+function gameOverTimeout() {
     setTimeout(() => {
         clearAllIntervals();
         gameSound.pause();
@@ -175,11 +228,22 @@ function gameOver() {
     }, 1000);
 }
 
+/**
+ * This function controls the sounds and the resetting of the intervals after the lost game
+ */
 function youLost() {
+    snore_sound.pause();
     gameStart = false;
     if (!muteFX) {
         lost_sound.play();
     }
+    youLostTimeout();
+}
+
+/**
+ * This function resets the intervals and displays the lost image
+ */
+function youLostTimeout(){
     setTimeout(() => {
         clearAllIntervals();
         gameSound.pause();
@@ -190,10 +254,13 @@ function youLost() {
         document.getElementById('back-to-menu-button').classList.remove('dn');
         document.getElementById('main-menu').classList.remove('dn');
         document.getElementById('canvas').classList.add('dn');
+    }, 1400);
 
-    }, 500);
 }
 
+/**
+ * This function resets the entire game
+ */
 function resteGameOver() {
     world.bossFightRun = false;
     stopGame = false;
@@ -204,6 +271,9 @@ function resteGameOver() {
     document.getElementById('back-to-menu-button').classList.add('dn');
 }
 
+/**
+ * This function checks whether the display is a small screen
+ */
 function checkScreenWidth() {
     setInterval(() => {
 
@@ -219,6 +289,9 @@ function checkScreenWidth() {
     }, 200);
 }
 
+/**
+ * This event listener checks the ESC key after exiting full screen mode
+ */
 window.addEventListener('keydown', (e) => {
     if (e.keyCode == 27) {
         document.querySelector('.screen').classList.add('m-10');
