@@ -117,7 +117,7 @@ class World {
      * This function checks whether the character has been damaged by a boss
      */
     checkCharacterDamageBoss() {
-        if (this.character.isColliding(this.endboss) && this.character.y + this.character.height <= this.endboss.y + this.endboss.height && this.endboss.energy >= 10) {
+        if (this.character.isColliding(this.endboss) && this.character.y + this.character.height >= this.endboss.y + this.endboss.height && this.endboss.energy >= 10) {
             this.character.hit();
             if (this.character.energy == 0) {
                 youLost();
