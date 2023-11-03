@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/world.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/world.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class World {
+    character = new Character();                            //load new Character
+    level = level1;                                         //set level1
+    enemies = level1.enemies;                               //set enemies
+    clouds = level1.clouds;                                 //set clouds
+    bottle = level1.bottle;                                 //set bottle
+    coins = level1.coins;                                   //set coin
+    endboss = new Endboss();                                //set endboss
+    keyboard;                                               //set keyboard
+    backgroundOjects = level1.backgroundOjects;             //set background objects
+    backgroundOjectsLayer1 = level1.backgroundOjectsLayer1; //set background objects layer 1
+    backgroundOjectsLayer2 = level1.backgroundOjectsLayer2; //set background objects layer 2
+    canvas;                                                 //set canvas
+    ctx;                                                    //set ctx
+    keyboard_up = true;                                     //set keybord up of ture
+    camera_x = 0;                                           //set camera x to 0
+    statusBar = new StatusBar();                            //set status bar
+    statusBarBoss = new StatusBarBoss();                    //set status bar boss
+    bottleBar = new BottleBar();                            //set bottle bar
+    coinBar = new CoinBar();                                //set coin bar
+    heaven = new Heaven();                                  //set heaven
+    throwableObject = [];                                   //Set throwable Objects
+    bottleCounter = 0;                                      //set bottle counter
+    throwBottle = true;                                     //set throw bottle true
+    coinCounter = 0;                                        //set coin counter
+    bossFight = false;                                      //set boss fight false
+    bossFightRun = false;                                   //set boss fight run false
+    gameover = false;                                       //set game over false
+
+    /**
+     * This constructor sets the settings for the world
+     * 
+     * @param {array} canvas    load the screen
+     * @param {array} keyboard  load the keyboard
+     */
+    constructor(canvas, keyboard) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        if (!scale) {
+            this.ctx.scale(2, 2);
+            scale = true;
+        }
+        this.draw();
+        this.keyboard = keyboard;
+        this.setWorld();
+        this.run();
+    }
+
+    /**
+     * Set world
+     */
+    setWorld() {
+        this.character.world = this;
+    }
+
+    /**
+     * This function starts the interval for the game
+     */
+    run() {
+        setInterval(() => {
+            this.checkThrowObjects();
+        }, 10);
+        setInterval(() => {
+            this.checkCollisions();
+        }, 10);
+    }
+
+    /**
+     * This function checks all collisions of moving objects in the world
+     */
+    checkThrowObjects() {
+        if (this.keyboard.SPACE &amp;&amp; this.keyboard_up == true &amp;&amp; this.bottleCounter >= 1 &amp;&amp; this.throwBottle) {
+            let bottle_fly = new ThrowableObject(this.character.x + 80, this.character.y + 100)
+            this.throwableObject.push(bottle_fly);
+            this.bottleCounter--;
+            this.keyboard_up = false;
+            this.throwBottle = false;
+            this.waitThrowBottle();
+        }
+        if (!this.keyboard.SPACE) {
+            this.keyboard_up = true;
+        }
+    }
+
+    /**
+     * This function checks all colisions in the world
+     */
+    checkCollisions() {
+        this.checkCharacterDamageChicken();
+        this.checkCharacterDamageBoss();
+        this.checkCharacterJumpChicken();
+        this.checkthrowBottleEnemy();
+        this.checkHitBottleBoss();
+        this.checkCoinAdd();
+        this.checkBottlAdd();
+    }
+
+    /**
+    * This function checks whether the character has been damaged by a chicken
+    */
+    checkCharacterDamageChicken() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy) &amp;&amp; this.character.y + this.character.height >= enemy.y + enemy.height &amp;&amp; !enemy.chickenDead) {
+                this.character.hit();
+                if (this.character.energy == 0) {
+                    youLost();
+                }
+                if (!muteFX &amp;&amp; gameStart) {
+                    damage_sound.play();
+                }
+                this.statusBar.setPercentage(this.character.energy);
+            }
+        });
+    }
+
+    /**
+     * This function checks whether the character has been damaged by a boss
+     */
+    checkCharacterDamageBoss() {
+        if (this.character.isColliding(this.endboss) &amp;&amp; this.character.y + this.character.height &lt;= this.endboss.y + this.endboss.height &amp;&amp; this.endboss.energy >= 10) {
+            this.character.hit();
+            if (this.character.energy == 0) {
+                youLost();
+            }
+            if (!muteFX &amp;&amp; gameStart) {
+                damage_sound.play();
+            }
+            this.statusBar.setPercentage(this.character.energy);
+        }
+    }
+
+    /**
+     * This function checks whether the character has jumped on a chicken
+     */
+    checkCharacterJumpChicken() {
+        this.level.enemies.forEach((enemy, index) => {
+            if (this.character.isColliding(enemy) &amp;&amp; this.character.y + this.character.offset.bottom + this.character.height &lt;= enemy.y + enemy.height &amp;&amp; !enemy.chickenDead) {
+                enemy.chickenDead = true;
+                this.deadSoundEnimy(enemy);
+                this.character.acceleration = 3.5;
+                this.character.jump();
+            }
+        });
+    }
+
+    /**
+     * This function checks whether a chicken was hit with a bottle
+     */
+    checkthrowBottleEnemy() {
+        this.level.enemies.forEach((enemy, index) => {
+            this.throwableObject.forEach((throwableObject) => {
+                if (throwableObject.isColliding(enemy)) {
+                    this.deadSoundEnimy(enemy);
+                    enemy.chickenDead = true;
+                }
+            });
+        });
+    }
+
+    /**
+     * This function checks whether the boss was hit with a bottle
+     */
+    checkHitBottleBoss() {
+        this.throwableObject.forEach((throwableObject) => {
+            if (throwableObject.isColliding(this.endboss)) {
+                if (throwableObject.hit &amp;&amp; this.endboss.energy != 0) {
+                    this.endboss.hit();
+                    if (!muteFX) {
+                        splash_bottle.currentTime = 0.3;
+                        splash_bottle.play()
+                        bossHit_Sound.play();
+                    }
+                    this.statusBarBoss.setPercentage(this.endboss.energy);
+                    this.endboss.hitBoss = true;
+                    throwableObject.hit = false;
+                }
+            }
+        });
+    }
+
+    /**
+    * This function checks whether a coin has been picked up
+    */
+    checkCoinAdd() {
+        this.level.coins.forEach((coins, index) => {
+            if (this.character.isColliding(coins)) {
+                this.level.coins.splice(index, 1);
+                if (!muteFX) {
+                    coinSound.currentTime = 0;
+                    coinSound.play();
+                }
+                this.coinCounter++;
+
+            }
+        });
+    }
+
+    /**
+     * This function checks whether a bottle has been picked up
+     */
+    checkBottlAdd() {
+        this.level.bottle.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle)) {
+                this.level.bottle.splice(index, 1);
+                if (!muteFX) {
+                    bottleSound.currentTime = 0;
+                    bottleSound.play();
+                }
+                this.bottleCounter++;
+            }
+        });
+    }
+
+    /**
+     * This function draws all objects in the world
+     */
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.addToMap(this.heaven);
+        this.ctx.translate(this.camera_x, 0);
+        this.drawObjects();
+        this.ctx.translate(-this.camera_x, 0);
+        this.drawCounters();
+        let self = this
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
+    /**
+     * This function records all objects that move to the camara_x in the plus direction
+     */
+    drawObjects() {
+        this.addObjectsToMap(this.level.backgroundOjectsLayer1);
+        this.addObjectsToMap(this.level.backgroundOjectsLayer2);
+        this.addObjectsToMap(this.level.backgroundOjects);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.endboss);
+        this.addObjectsToMap(this.throwableObject);
+        this.addObjectsToMap(this.level.bottle);
+        this.addObjectsToMap(this.level.coins);
+        this.addToMap(this.character);
+    }
+
+    /**
+     * This function records bars and counter of bottle and coins
+     */
+    drawCounters() {
+        this.addToMap(this.statusBar);
+        this.addToMap(this.bottleBar);
+        this.addToMap(this.coinBar);
+        this.showBossBar();
+        this.counterText(this.bottleCounter, 480, 40);
+        this.counterText(this.coinCounter, 400, 40);
+    }
+
+    /**
+     * This function records the boss bar from a certain camera_x value
+     */
+    showBossBar() {
+        if (this.camera_x &lt;= -3550 || this.bossFight) { //3780 -50
+            this.addToMap(this.statusBarBoss);
+            this.bossFight = true;
+            setTimeout(() => {
+                this.bossFightRun = true;
+            }, 2000);
+        }
+    }
+
+    /**
+     * This function draws the counters on the world
+     * 
+     * @param {sting} counter   counter of bottle or coins
+     * @param {number} x        x coordinates
+     * @param {number} y        y coordinates
+     */
+    counterText(counter, x, y) {
+        this.ctx.font = "34px sans-serif";
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText(counter, x, y);
+    }
+
+    /**
+     * This function draws the images on the world 
+     * 
+     * @param {objects} mo  img object
+     */
+    addObjectsToMap(objects) {
+        objects.forEach(o => {
+            this.addToMap(o);
+        });
+    }
+
+    /**
+     * This function draws the images on the world and rotates it when the direction changes
+     * 
+     * @param {objects} mo  img object
+     */
+    addToMap(mo) {
+        if (mo.otherDirection) {
+            this.flipImage(mo);
+        }
+        mo.draw(this.ctx);
+        //mo.drawFrame(this.ctx);
+        //mo.drawFrameHitBox(this.ctx);
+        if (mo.otherDirection) {
+            this.flipImageBack(mo);
+        }
+    }
+
+    /**
+     * This function turns the image
+     * 
+     * @param {object} mo img object
+     */
+    flipImage(mo) {
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+
+    /**
+     * This function turns the image back again
+     * 
+     * @param {object} mo img object
+     */
+    flipImageBack(mo) {
+        mo.x = mo.x * -1;
+        this.ctx.restore();
+    }
+
+    /**
+     * This function plays the sound of killing chicken
+     * 
+     * @param {array} enemy choice of chicken
+     */
+    deadSoundEnimy(enemy) {
+        if (!muteFX) {
+            if (enemy.chicken == 'small') {
+                deadChickenSmall.currentTime = 0;
+                deadChickenSmall.play();
+            } else {
+                deadChicken.currentTime = 0;
+                deadChicken.play();
+            }
+        }
+    }
+
+    /**
+     * This function waits for the bottle to be thrown
+     */
+    waitThrowBottle() {
+        setTimeout(() => {
+            this.throwBottle = true;
+        }, 1000);
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="BackgroundObjectLayer1.html">BackgroundObjectLayer1</a></li><li><a href="BackgroundObjectLayer2.html">BackgroundObjectLayer2</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="BottleBar.html">BottleBar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="ChickenSmall.html">ChickenSmall</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Heaven.html">Heaven</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="StatusBarBoss.html">StatusBarBoss</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkScreenWidth">checkScreenWidth</a></li><li><a href="global.html#clearAllIntervals">clearAllIntervals</a></li><li><a href="global.html#closeMenu">closeMenu</a></li><li><a href="global.html#fxSounds">fxSounds</a></li><li><a href="global.html#gameOver">gameOver</a></li><li><a href="global.html#gameOverTimeout">gameOverTimeout</a></li><li><a href="global.html#initGame">initGame</a></li><li><a href="global.html#mainMenu">mainMenu</a></li><li><a href="global.html#mute">mute</a></li><li><a href="global.html#muteMenuChecked">muteMenuChecked</a></li><li><a href="global.html#playedClickSound">playedClickSound</a></li><li><a href="global.html#playedSounds">playedSounds</a></li><li><a href="global.html#resteGameOver">resteGameOver</a></li><li><a href="global.html#setFullScreen">setFullScreen</a></li><li><a href="global.html#setFullScreenIcon">setFullScreenIcon</a></li><li><a href="global.html#setSreenIcon">setSreenIcon</a></li><li><a href="global.html#showControls">showControls</a></li><li><a href="global.html#showCredits">showCredits</a></li><li><a href="global.html#showFullscreen">showFullscreen</a></li><li><a href="global.html#showMenu">showMenu</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showStory">showStory</a></li><li><a href="global.html#songSounds">songSounds</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startGameInit">startGameInit</a></li><li><a href="global.html#youLost">youLost</a></li><li><a href="global.html#youLostTimeout">youLostTimeout</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Nov 03 2023 13:10:00 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: game.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: game.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let canvas;                         //creates the variable of the canvas
+let world;                          //creates the variable of the world
+let ctx;                            //creates the variable of the ctx
+let keyboard = new Keyboard();      //creates a new keyboard
+let startNewGame = false;           //creates the variable startNewGame
+let menuInterval;                   //creates the variable menuIntervall to reset it
+scale = false;                      //creates the variable scale for a better resolution of the game
+
+/**
+ * This function initializes the touch buttons
+ */
+function initGame() {
+    window.addEventListener("resize", checkScreenWidth);
+}
+
+/**
+ * This function initializes the game and sets the interval and other variables to start
+ */
+function startGameInit() {
+    checkScreenWidth();
+    playedSounds();
+    initLevel();
+    clearInterval(menuInterval);
+    gameSound.currentTime = 0.3;
+    snore_sound.pause();
+    gameStart = true;
+    stopGame = false;
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+}
+
+/**
+ * This function resets the intervals
+ */
+function clearAllIntervals() {
+    let maxIntervalCount = setInterval(() => ';');
+    for (let i = 0; i &lt; maxIntervalCount + 1; i++) {
+        clearInterval(i);
+    }
+}
+
+
+/**
+ * This function starts the game and loads the canvas 
+ */
+function startGame() {
+    startGameInit();
+    startNewGame = true;
+    document.getElementById('canvas').classList.remove('dn');
+    document.getElementById('main-menu').classList.add('dn');
+    document.getElementById('menu-start-button').classList.add('dn');
+    document.getElementById('back-to-menu-button').classList.add('dn');
+}
+
+/**
+ * This event listener checks the input of the keyboard
+ */
+window.addEventListener('keydown', (e) => {
+    if (e.keyCode == 39 || e.keyCode == 68) {
+        keyboard.RIGHT = true;
+    }
+    if (e.keyCode == 37 || e.keyCode == 65) {
+        keyboard.LEFT = true;
+    }
+    if (e.keyCode == 38 || e.keyCode == 87) {
+        keyboard.UP = true;
+    }
+    if (e.keyCode == 40 || e.keyCode == 83) {
+        keyboard.DOWN = true;
+    }
+    if (e.keyCode == 32) {
+        keyboard.SPACE = true;
+    }
+
+});
+
+/**
+ * This event listener checks the input of the keyboard
+ */
+window.addEventListener('keyup', (e) => {
+    if (e.keyCode == 39 || e.keyCode == 68) {
+        keyboard.RIGHT = false;
+    }
+    if (e.keyCode == 37 || e.keyCode == 65) {
+        keyboard.LEFT = false;
+    }
+    if (e.keyCode == 38 || e.keyCode == 87) {
+        keyboard.UP = false;
+    }
+    if (e.keyCode == 40 || e.keyCode == 83) {
+        keyboard.DOWN = false;
+    }
+    if (e.keyCode == 32) {
+        keyboard.SPACE = false;
+    }
+
+});
+
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkScreenWidth">checkScreenWidth</a></li><li><a href="global.html#clearAllIntervals">clearAllIntervals</a></li><li><a href="global.html#closeMenu">closeMenu</a></li><li><a href="global.html#fxSounds">fxSounds</a></li><li><a href="global.html#gameOver">gameOver</a></li><li><a href="global.html#gameOverTimeout">gameOverTimeout</a></li><li><a href="global.html#initGame">initGame</a></li><li><a href="global.html#mainMenu">mainMenu</a></li><li><a href="global.html#mute">mute</a></li><li><a href="global.html#muteMenuChecked">muteMenuChecked</a></li><li><a href="global.html#playedClickSound">playedClickSound</a></li><li><a href="global.html#playedSounds">playedSounds</a></li><li><a href="global.html#resteGameOver">resteGameOver</a></li><li><a href="global.html#setFullScreen">setFullScreen</a></li><li><a href="global.html#setFullScreenIcon">setFullScreenIcon</a></li><li><a href="global.html#setSreenIcon">setSreenIcon</a></li><li><a href="global.html#showControls">showControls</a></li><li><a href="global.html#showCredits">showCredits</a></li><li><a href="global.html#showFullscreen">showFullscreen</a></li><li><a href="global.html#showMenu">showMenu</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showStory">showStory</a></li><li><a href="global.html#songSounds">songSounds</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startGameInit">startGameInit</a></li><li><a href="global.html#youLost">youLost</a></li><li><a href="global.html#youLostTimeout">youLostTimeout</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Nov 03 2023 13:07:24 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

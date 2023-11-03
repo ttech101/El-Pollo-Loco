@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: movable-object.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: movable-object.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class MovableObject extends DrawableObject {
+    speed = 0.1;                //speed
+    otherDirection = false;     //direction left or right
+    speedY = 0;                 //speed
+    acceleration;               //acceleration
+    energy = 100;               //energy
+    lastHit = 0;                //last hit counter
+    lastHitBoss = 0;            // last hit counter boss
+    hit_ture = true;            //hit
+    hitBoss = false;            //hit boss
+    brokebottle = 5;            // bottle broke
+    gravityEnd;                 //gravity end
+
+
+    /**
+     * This function creates the graphitation
+     */
+    applyGravity() {
+        setInterval(() => {
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            }
+        }, 1000 / 25);
+    }
+
+    /**
+     * This function checks whether the object is in the air
+     * @returns Depending on which value comes, there is a right or wrong answer
+     */
+    isAboveGround() {
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else {
+            if (this.y > this.gravityEnd) {
+                this.y = this.gravityEnd;
+            }
+            return this.y &lt; this.gravityEnd;
+        }
+    }
+
+    /**
+     * This function checks the collision and returns a true or false
+     * 
+     * @param {object} mo The object that is being checked
+     * @returns ture or false
+     */
+    isColliding(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &amp;&amp;
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &amp;&amp;
+            this.x + this.offset.left &lt; mo.x + mo.width - mo.offset.right &amp;&amp;
+            this.y + this.offset.top &lt; mo.y + mo.height - mo.offset.bottom;
+    }
+
+    /**
+     * This function creates a meeting of the character
+     */
+    hit() {
+        if (this.hit_ture) {
+            this.energy -= 20;
+            if (this.energy &lt; 0) {
+                this.energy = 0;
+            } else {
+                this.lastHit = new Date().getTime();
+                this.hit_ture = false;
+                this.hitBoss = true
+            }
+        }
+    }
+
+    /**
+     * This function checks how long ago the last hit was and returns false as soon as the time has expired
+     * 
+     * @returns ture or false
+     */
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        if (timepassed > 0.5) {
+            this.hit_ture = true;
+            this.hitBoss = false;
+        }
+        return timepassed &lt; 0.5;
+    }
+
+    /**
+     * This function checks whether the energy is zero and then returns true
+     * 
+     * @returns true
+     */
+    isDead() {
+        return this.energy == 0;
+    }
+
+    /**
+     * this function animates the objects
+     * 
+     * @param {objects} images img path 
+     */
+    playAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
+
+    /**
+     * this function animates the jump objects
+     * 
+     * @param {objects} images img path 
+     */
+    playAnimationJump(images) {
+        let i = this.currentImage % images.length;
+        if (this.currentImage == images.length) {
+            i = 0
+        }
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
+
+    /**
+     * This function makes the objects move to the right
+     */
+    moveRight() {
+        this.x += this.speed;
+    }
+
+    /**
+     * This function makes the objects move to the left
+     */
+    moveLeft() {
+        this.x -= this.speed;
+    }
+
+    /**
+     * This function makes the objects jumping
+     */
+    jump() {
+        this.speedY = 20;
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="BackgroundObjectLayer1.html">BackgroundObjectLayer1</a></li><li><a href="BackgroundObjectLayer2.html">BackgroundObjectLayer2</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="BottleBar.html">BottleBar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="ChickenSmall.html">ChickenSmall</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Heaven.html">Heaven</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="StatusBarBoss.html">StatusBarBoss</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Nov 03 2023 13:07:22 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
