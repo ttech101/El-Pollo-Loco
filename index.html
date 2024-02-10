@@ -1,205 +1,205 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El pollo loco</title>
-    <link rel="icon" href="./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png">
-    <link rel="stylesheet" href="./css/fonts.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="levels/level1.js"></script>
-    <script src="models/drawable-object.class.js"></script>
-    <script src="models/movable-object.class.js"></script>
-    <script src="models/status-bar.class.js"></script>
-    <script src="models/status-bar-boss.class.js"></script>
-    <script src="models/bottle-bar.class.js"></script>
-    <script src="models/coin-bar.class.js"></script>
-    <script src="models/throwable-object.class.js"></script>
-    <script src="models/character.class.js"></script>
-    <script src="models/chicken.class.js"></script>
-    <script src="models/chicken-small.class.js"></script>
-    <script src="models/endboss.class.js"></script>
-    <script src="models/cloud.class.js"></script>
-    <script src="models/world.class.js"></script>
-    <script src="models/background-object.class.js"></script>
-    <script src="models/background-object-layer-2.class.js"></script>
-    <script src="models/background-object-layer-1.class.js"></script>
-    <script src="models/bottle.class.js"></script>
-    <script src="models/coins.class.js"></script>
-    <script src="models/level.class.js"></script>
-    <script src="models/heaven.class.js"></script>
-    <script src="models/keyboard.class.js"></script>
-    <script src="./js/game.js"></script>
-    <script src="./js/layout.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>El pollo loco</title>
+        <link rel="icon" href="./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png">
+        <link rel="stylesheet" href="./css/fonts.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="levels/level1.js"></script>
+        <script src="models/drawable-object.class.js"></script>
+        <script src="models/movable-object.class.js"></script>
+        <script src="models/status-bar.class.js"></script>
+        <script src="models/status-bar-boss.class.js"></script>
+        <script src="models/bottle-bar.class.js"></script>
+        <script src="models/coin-bar.class.js"></script>
+        <script src="models/throwable-object.class.js"></script>
+        <script src="models/character.class.js"></script>
+        <script src="models/chicken.class.js"></script>
+        <script src="models/chicken-small.class.js"></script>
+        <script src="models/endboss.class.js"></script>
+        <script src="models/cloud.class.js"></script>
+        <script src="models/world.class.js"></script>
+        <script src="models/background-object.class.js"></script>
+        <script src="models/background-object-layer-2.class.js"></script>
+        <script src="models/background-object-layer-1.class.js"></script>
+        <script src="models/bottle.class.js"></script>
+        <script src="models/coins.class.js"></script>
+        <script src="models/level.class.js"></script>
+        <script src="models/heaven.class.js"></script>
+        <script src="models/keyboard.class.js"></script>
+        <script src="./js/game.js"></script>
+        <script src="./js/layout.js"></script>
 
-</head>
+    </head>
 
-<body id="full-box" onload="initGame()">
-    <div class="phone">
+    <body id="full-box" onload="initGame()">
+        <div class="phone">
 
-        <img src="./img/Icons/smart_screen_FILL0_wght400_GRAD0_opsz24.svg" alt="">
-        <h2>Please rotate your smartphone<br /> to play the game</h2>
-    </div>
-    <div class="screen m-10">
-        <div class="center">
-            <div id="option" class="options">
-                <div class="menu-left "><img onclick="showMenu()"
-                        src="./img/Icons/desktop/menu_FILL0_wght400_GRAD0_opsz24.svg" alt="">
-                    Menu
-                </div>
-                <div>
-                    <div class="menu-center">
-                        <img id="mute" onclick="mute('click')"
-                            src="./img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg" alt="Sound Volume">
-                        <span>Mute</span>
-                    </div>
-                    <div id="menu-start-button" onclick="startGame()" class="menu-center-colume ">
-                        Start
-                    </div>
-                    <div id="back-to-menu-button" onclick="resteGameOver()" class="menu-center-colume dn">
-                        Back to menu
-                    </div>
-
-                </div>
-                <div class="menu-right">
-                    Fullscreen
-                    <img id="fullscreen-img" onclick="showFullscreen()"
-                        src="./img/Icons/desktop/fullscreen_FILL0_wght400_GRAD0_opsz24.svg" alt="Fullscreen">
-                </div>
-            </div>
-            <canvas id="canvas" width="1920" height="950" class="dn"></canvas>
-            <img id="main-menu" class="canvas " src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="">
+            <img src="./img/Icons/smart_screen_FILL0_wght400_GRAD0_opsz24.svg" alt="">
+            <h2>Please rotate your smartphone<br /> to play the game</h2>
         </div>
-        <div id="hud-touch" class="hud-touch dn">
-            <div>
-                <img id="btnleft" src="./img/keyboard/icons8-quadrat-links-100.png" alt="">
-                <img id="btnright" src="./img/keyboard/icons8-quadrat-rechts-100.png" alt="">
-            </div>
-            <div>
-                <img id="btntrow" src="./img/keyboard/icons8-trow-100.png" alt="">
-                <img id="btnup" src="./img/keyboard/icons8-quadrat-up-100.png" alt="">
-            </div>
-        </div>
-    </div>
-
-    <div id="menu" class="menu-bg dn">
-        <div class="menu-box">
-            <div id="menu-menu" class="menu">
-                <div onclick="mainMenu()" class="menu-button">Main Menu</div>
-                <div onclick="closeMenu(),startGame()" class="menu-button">Restart</div>
-                <div onclick="showControls()" class="menu-button">Controls</div>
-                <div onclick="showStory()" class="menu-button">Story</div>
-                <div onclick="showSettings()" class="menu-button">Option</div>
-                <div onclick="showCredits()" class="menu-button">Credits</div>
-            </div>
-            <div id="menu-controls" class="menu-controls dn">
-                <div class="menu-controls-box">
-                    <div class="menu-controls-box-only">
-                        <div>
-                            <img src="./img/keyboard/icons8-quadrat-links-100.png" alt="">
-                            <img src="./img/keyboard/icons8-a-taste-100.png" alt="">
-                        </div>
-                        move left
+        <div class="screen m-10">
+            <div class="center">
+                <div id="option" class="options">
+                    <div class="menu-left "><img onclick="showMenu()"
+                            src="./img/Icons/desktop/menu_FILL0_wght400_GRAD0_opsz24.svg" alt="">
+                        Menu
                     </div>
-                    <div class="menu-controls-box-only">
-                        <div>
-                            <img src="./img/keyboard/icons8-quadrat-rechts-100.png" alt="">
-                            <img src="./img/keyboard/icons8-d-taste-100.png" alt="">
+                    <div>
+                        <div class="menu-center">
+                            <img id="mute" onclick="mute('click')"
+                                src="./img/Icons/desktop/volume_up_FILL0_wght400_GRAD0_opsz24.svg" alt="Sound Volume">
+                            <span>Mute</span>
                         </div>
-                        move right
+                        <div id="menu-start-button" onclick="startGame()" class="menu-center-colume ">
+                            Start
+                        </div>
+                        <div id="back-to-menu-button" onclick="resteGameOver()" class="menu-center-colume dn">
+                            Back to menu
+                        </div>
+
+                    </div>
+                    <div class="menu-right">
+                        Fullscreen
+                        <img id="fullscreen-img" onclick="showFullscreen()"
+                            src="./img/Icons/desktop/fullscreen_FILL0_wght400_GRAD0_opsz24.svg" alt="Fullscreen">
                     </div>
                 </div>
-                <div class="menu-controls-box">
-
-                    <div class="menu-controls-box-only">
-                        <div>
-                            <img src="./img/keyboard/icons8-leertaste-100.png" alt="">
-                        </div>
-                        <div>throw a bottle</div>
-                    </div>
-                    <div class="menu-controls-box-only">
-                        <div>
-                            <img src="./img/keyboard/icons8-quadrat-up-100.png" alt="">
-                            <img src="./img/keyboard/icons8-w-taste-100.png" alt="">
-                        </div>
-                        jump
-                    </div>
+                <canvas id="canvas" width="1920" height="950" class="dn"></canvas>
+                <img id="main-menu" class="canvas " src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="">
+            </div>
+            <div id="hud-touch" class="hud-touch dn">
+                <div>
+                    <img id="btnleft" src="./img/keyboard/icons8-quadrat-links-100.png" alt="">
+                    <img id="btnright" src="./img/keyboard/icons8-quadrat-rechts-100.png" alt="">
                 </div>
                 <div>
-                    <div>The chickens can be killed by jumping on their heads or by throwing them with a bottle.</div>
-                </div>
-            </div>
-            <div id="menu-story" class="menu-story dn">
-                <div> In a Mexican village named Salsaville, the salsa dancer Pepe is attacked by mutated chickens,
-                    known as "Chickenzillas." Armed with his salsa bottles, Pepe must navigate through various 2D
-                    platform levels, defeating the Chickenzillas. Along the way, he collects different salsa bottles
-                    and
-                    power-ups. Players must use their platforming skills to safely guide Pepe through the levels and
-                    save the village. "Pepe's Salsa Rescue" is an exciting jump-and-run game with a touch of salsa
-                    and
-                    Mexican flair. Pepe utilizes his salsa skills to defeat the Chickenzillas and restore peace to
-                    Salsaville.
-                </div>
-            </div>
-
-            <div id="menu-settings" class="menu-settings dn">
-                <h3>Settigns</h3>
-                <div><label for="myCheckbox1">Sounds:</label>
-                    <input type="checkbox" id="checkboxSound" name="myCheckbox1" checked>
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <div><label for="myCheckbox">FX Sounds:</label>
-                        <input type="checkbox" id="checkboxFX" name="myCheckbox" checked>
-                    </div>
-                </div>
-                Music
-                <div>
-                    <input type="range" min="0" max="100" value="100" class="slider" id="volumeSliderSound">
-                    <span id="volumeValueSound">100 %</span>
-                </div>
-                FX-Sound
-                <div>
-                    <input type="range" min="0" max="100" value="100" class="slider" id="volumeSliderFX">
-                    <span id="volumeValueFX">100 %</span>
-                </div>
-            </div>
-
-            <div id="menu-credit" class="menu-credit dn">
-                <div>
-                    <h3>Credits for "El Pollo Loco"</h3>
-                    <div style="margin-bottom: 15px;">
-                        <b> Development and Programming:</b>
-                        <div>- Programming by Tony Tech</div>
-                        <a href="./out/index.html">link to documentation</a>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <b> Graphic Design and Artwork:</b>
-                        <div>- Artwork developed by Developer Academy</div>
-
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <b>Icon Usage:</b>
-                        <div>- Icons provided by Google</div>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <b> Sounds:</b>
-                        <div>- From freepick and freesounds</div>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        Special thanks to everyone who contributed to the development of this game!
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-bottom">
-                <div onclick="closeMenu()" class="menu-button" style="margin-top: 40px;">Close
+                    <img id="btntrow" src="./img/keyboard/icons8-trow-100.png" alt="">
+                    <img id="btnup" src="./img/keyboard/icons8-quadrat-up-100.png" alt="">
                 </div>
             </div>
         </div>
-    </div>
 
-</body>
-<script src="./js/sounds.js"></script>
+        <div id="menu" class="menu-bg dn">
+            <div class="menu-box">
+                <div id="menu-menu" class="menu">
+                    <div onclick="mainMenu()" class="menu-button">Main Menu</div>
+                    <div onclick="closeMenu(),startGame()" class="menu-button">Restart</div>
+                    <div onclick="showControls()" class="menu-button">Controls</div>
+                    <div onclick="showStory()" class="menu-button">Story</div>
+                    <div onclick="showSettings()" class="menu-button">Option</div>
+                    <div onclick="showCredits()" class="menu-button">Credits</div>
+                </div>
+                <div id="menu-controls" class="menu-controls dn">
+                    <div class="menu-controls-box">
+                        <div class="menu-controls-box-only">
+                            <div>
+                                <img src="./img/keyboard/icons8-quadrat-links-100.png" alt="">
+                                <img src="./img/keyboard/icons8-a-taste-100.png" alt="">
+                            </div>
+                            move left
+                        </div>
+                        <div class="menu-controls-box-only">
+                            <div>
+                                <img src="./img/keyboard/icons8-quadrat-rechts-100.png" alt="">
+                                <img src="./img/keyboard/icons8-d-taste-100.png" alt="">
+                            </div>
+                            move right
+                        </div>
+                    </div>
+                    <div class="menu-controls-box">
+
+                        <div class="menu-controls-box-only">
+                            <div>
+                                <img src="./img/keyboard/icons8-leertaste-100.png" alt="">
+                            </div>
+                            <div>throw a bottle</div>
+                        </div>
+                        <div class="menu-controls-box-only">
+                            <div>
+                                <img src="./img/keyboard/icons8-quadrat-up-100.png" alt="">
+                                <img src="./img/keyboard/icons8-w-taste-100.png" alt="">
+                            </div>
+                            jump
+                        </div>
+                    </div>
+                    <div>
+                        <div>The chickens can be killed by jumping on their heads or by throwing bottles on them.</div>
+                    </div>
+                </div>
+                <div id="menu-story" class="menu-story dn">
+                    <div> In a Mexican village named Salsaville, the salsa dancer Pepe is attacked by mutated chickens,
+                        known as "Chickenzillas." Armed with his salsa bottles, Pepe must navigate through various 2D
+                        platform levels, defeating the Chickenzillas. Along the way, he collects different salsa bottles
+                        and
+                        power-ups. Players must use their platforming skills to safely guide Pepe through the levels and
+                        save the village. "Pepe's Salsa Rescue" is an exciting jump-and-run game with a touch of salsa
+                        and
+                        Mexican flair. Pepe utilizes his salsa skills to defeat the Chickenzillas and restore peace to
+                        Salsaville.
+                    </div>
+                </div>
+
+                <div id="menu-settings" class="menu-settings dn">
+                    <h3>Settigns</h3>
+                    <div><label for="myCheckbox1">Sounds:</label>
+                        <input type="checkbox" id="checkboxSound" name="myCheckbox1" checked>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div><label for="myCheckbox">FX Sounds:</label>
+                            <input type="checkbox" id="checkboxFX" name="myCheckbox" checked>
+                        </div>
+                    </div>
+                    Music
+                    <div>
+                        <input type="range" min="0" max="100" value="100" class="slider" id="volumeSliderSound">
+                        <span id="volumeValueSound">100 %</span>
+                    </div>
+                    FX-Sound
+                    <div>
+                        <input type="range" min="0" max="100" value="100" class="slider" id="volumeSliderFX">
+                        <span id="volumeValueFX">100 %</span>
+                    </div>
+                </div>
+
+                <div id="menu-credit" class="menu-credit dn">
+                    <div>
+                        <h3>Credits for "El Pollo Loco"</h3>
+                        <div style="margin-bottom: 15px;">
+                            <b> Development and Programming:</b>
+                            <div>- Programming by Tony Tech</div>
+                            <a href="./out/index.html">link to documentation</a>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <b> Graphic Design and Artwork:</b>
+                            <div>- Artwork developed by Developer Academy</div>
+
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <b>Icon Usage:</b>
+                            <div>- Icons provided by Google</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <b> Sounds:</b>
+                            <div>- From freepick and freesounds</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            Special thanks to everyone who contributed to the development of this game!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-bottom">
+                    <div onclick="closeMenu()" class="menu-button" style="margin-top: 40px;">Close
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script src="./js/sounds.js"></script>
 
 </html>
